@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Rescue &mdash; مدربك الدراسي الذكي</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23C13A0D'/%3E%3Ccircle cx='50' cy='50' r='17' fill='none' stroke='%23F5F0E6' stroke-width='9'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--paper:#F5F0E6;--card:#FFFDF8;--ink:#241E14;--muted:#6B6254;--ink-15:rgba(36,30,20,.14);--ink-30:rgba(36,30,20,.3);--accent:#C13A0D;--hl:#FFD43B;--green:#1E7A4D;--green-soft:#E5F2E9;--red:#B3372B;--red-soft:#F8E7E3;--amber:#8A6D1A;--amber-soft:#FAEEDA;--r:14px;--shadow:4px 4px 0 var(--ink)}
+html{scroll-behavior:smooth}
+body{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;background:var(--paper);color:var(--ink);line-height:1.9;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.en{font-family:'Segoe UI',Arial,sans-serif;direction:ltr}body.en .brand-txt,body.en h1,body.en h2,body.en h3,body.en .jnum,body.en .lvl-big,body.en .step-n,body.en .sn-dot{font-family:'Segoe UI',Arial,sans-serif}body.en .hero::after{inset-inline-start:11px;inset-inline-end:auto}
+h1,h2,h3,.brand-txt,.jnum,.lvl-big,.step-n,.sn-dot{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif}
+button{font-family:inherit;color:inherit}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+.ic{width:1.05em;height:1.05em;vertical-align:-.18em;flex:none}
+.wrap{max-width:1100px;margin-inline:auto;padding-inline:20px}
+.n7{max-width:780px}.n9{max-width:960px}
+.muted{color:var(--muted)}.small{font-size:.85rem}.center{text-align:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes stampIn{from{transform:rotate(-16deg) scale(1.9);opacity:0}to{transform:rotate(-7deg) scale(1);opacity:.92}}
+.card{background:var(--card);border:1.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:700;font-size:1rem;padding:12px 22px;border-radius:12px;border:1.5px solid var(--ink);cursor:pointer;text-decoration:none;line-height:1.5;background:var(--card);color:var(--ink);box-shadow:3px 3px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-sm{padding:8px 14px;font-size:.88rem;border-radius:10px;box-shadow:2px 2px 0 var(--ink)}
+.btn-lg{padding:14px 28px;font-size:1.05rem}
+.btn-block{width:100%}
+.topbar{position:sticky;top:0;z-index:50;height:62px;background:var(--paper);border-bottom:1.5px solid var(--ink)}
+.bar-in{height:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer}
+.brand-mark{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);display:grid;place-items:center}
+.brand-mark svg{width:20px;height:20px}
+.brand-txt{font-weight:700;font-size:1.12rem}.brand-txt b{color:var(--accent)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.lvl-mini{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ink);background:var(--hl);border-radius:99px;padding:3px 12px;font-weight:700;font-size:.82rem;box-shadow:2px 2px 0 var(--ink)}
+.view{display:none}.view.on{display:block;animation:fadeUp .4s ease both}
+.hero{position:relative;padding:58px 0 66px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(to bottom,transparent 0 34px,rgba(36,30,20,.07) 34px 35.5px)}
+.hero::after{content:'';position:absolute;top:0;bottom:0;inset-inline-end:11px;width:1.5px;background:rgba(193,58,13,.3);pointer-events:none}
+.hero-grid{position:relative;display:grid;gap:38px;align-items:center}
+@media(min-width:920px){.hero-grid{grid-template-columns:1.05fr .95fr}}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:700;color:var(--accent)}
+.kicker::before{content:'';width:26px;height:2.5px;background:var(--accent);border-radius:2px}
+.hero h1{font-size:clamp(1.9rem,7.4vw,3.4rem);line-height:1.45;margin:14px 0 18px;font-weight:700}
+.hl{position:relative;z-index:0;white-space:nowrap}
+.hl::before{content:'';position:absolute;inset:52% -5% 6%;background:var(--hl);transform:rotate(-1.2deg);border-radius:3px;z-index:-1}
+.lede{font-size:clamp(1rem,3.6vw,1.14rem);color:#4A4235;max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0 18px}
+.hero-note{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);font-weight:500}
+.fchips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.fchip{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--ink);border-radius:99px;padding:6px 13px;font-size:.8rem;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
+.fchip svg{color:var(--accent)}
+.fchips>:nth-child(1){transform:rotate(-2deg)}.fchips>:nth-child(2){transform:rotate(1.4deg)}.fchips>:nth-child(3){transform:rotate(-1deg)}
+.jcard{padding:22px 22px 18px;position:relative}
+.jcard h3{font-size:1.15rem;margin-top:4px}
+.jrow{display:flex;align-items:center;gap:14px;margin:14px 0 10px}
+.jnum{font-size:3.1rem;font-weight:700;line-height:1;min-width:105px}
+.jchip{border:1.5px solid var(--ink);border-radius:99px;padding:4px 14px;font-weight:700;font-size:.92rem;box-shadow:2px 2px 0 var(--ink)}
+.jbar{height:14px;border:1.5px solid var(--ink);border-radius:99px;overflow:hidden;background:#fff}
+.jfill{height:100%;width:42%;background:var(--accent);transition:width .2s}
+input[type=range]{width:100%;margin:16px 0 4px;-webkit-appearance:none;appearance:none;background:transparent;cursor:grab;height:32px}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:var(--ink-15);border:1px solid var(--ink-30)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:30px;margin-top:-12px;border-radius:50%;background:var(--accent);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:var(--ink-15);border:1px solid var(--ink-30)}
+input[type=range]::-moz-range-thumb{width:27px;height:27px;border-radius:50%;background:var(--accent);border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.jsent{font-size:.92rem;font-weight:600;color:#4A4235;min-height:3.4em}
+.sec{padding:64px 0}
+.sec-head{text-align:center;max-width:620px;margin:0 auto 40px}
+.sec-head h2{font-size:clamp(1.5rem,5vw,2.15rem);margin:10px 0 8px;line-height:1.5}
+.steps{max-width:660px;margin-inline:auto}
+.step{position:relative;padding-inline-start:72px;padding-bottom:38px}
+.step::before{content:'';position:absolute;inset-inline-start:25px;top:56px;bottom:4px;border-inline-start:2px dashed var(--ink-30)}
+.step:last-child{padding-bottom:0}.step:last-child::before{display:none}
+.step-n{position:absolute;inset-inline-start:0;top:0;width:52px;height:52px;border-radius:50%;border:1.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;font-weight:700;font-size:1.3rem;background:var(--hl)}
+.step h3{font-size:1.12rem;margin-bottom:2px}.step p{color:var(--muted);font-size:.95rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(min-width:760px){.grid2{grid-template-columns:repeat(3,1fr)}}
+.subj{display:flex;align-items:center;gap:13px;padding:16px;text-align:start;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.subj:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.subj .sic{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--ink);background:var(--hl);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.subj .sic svg{width:22px;height:22px}
+.subj b{display:block;font-size:1rem}.subj span{font-size:.8rem;color:var(--muted);font-weight:500}
+.subj-note{text-align:center;margin-top:18px}
+.band{background:var(--ink);color:var(--paper);padding:64px 0;text-align:center}
+.band h2{font-size:clamp(1.4rem,5vw,2.1rem);line-height:1.55;max-width:26ch;margin:0 auto 10px}
+.band h2 span{color:var(--hl)}.band p{opacity:.85;margin-bottom:26px}
+.foot{border-top:1.5px solid var(--ink);padding:24px 0}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;font-size:.85rem;color:var(--muted)}
+.wiz{padding:34px 0 70px}
+.wiz-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.wcount{font-size:.82rem;font-weight:700;color:var(--muted);white-space:nowrap}
+.wiz-head{margin:4px 0 22px}
+.wiz-head h1{font-size:clamp(1.45rem,5.5vw,2.05rem);line-height:1.5;margin-bottom:4px;font-weight:700}
+.wiz-head p{color:var(--muted);font-size:.95rem;max-width:56ch}
+.stepper{position:relative;display:flex;margin:6px 0 30px}
+.sn-track{position:absolute;top:17px;right:4%;left:4%;border-top:2.5px dashed var(--ink-30)}
+.sn-prog{position:absolute;top:17px;right:4%;width:0;border-top:2.5px solid var(--green);transition:width .45s}
+.step-node{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:7px;background:none;border:none;cursor:pointer;padding:0 2px}
+.sn-dot{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:700;font-size:.78rem;background:var(--card);color:var(--muted);box-shadow:2px 2px 0 var(--ink);position:relative;z-index:1;transition:.2s}
+.step-node svg{width:13px;height:13px}
+.step-node.done .sn-dot{background:var(--green);color:#fff;border-color:var(--green)}
+.step-node.now .sn-dot{background:var(--accent);color:#fff;transform:scale(1.12)}
+.sn-lab{font-size:.58rem;font-weight:700;color:var(--muted);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.step-node.now .sn-lab{color:var(--ink)}.step-node.done .sn-lab{color:var(--green)}
+.wiz-q h2{font-size:clamp(1.3rem,5vw,1.75rem);line-height:1.5;margin-top:4px}
+.opt{position:relative;display:flex;align-items:center;gap:12px;padding:16px;text-align:start;cursor:pointer;transition:transform .12s,box-shadow .12s}
+.opt:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.opt .oic{width:42px;height:42px;border-radius:11px;border:1.5px solid var(--ink);background:var(--paper);display:grid;place-items:center;flex:none}
+.opt .oic svg{width:20px;height:20px;color:var(--accent)}
+.opt b{display:block;font-size:1rem}.opt span{display:block;font-size:.82rem;color:var(--muted);font-weight:500}
+.opt.g-opt{justify-content:center;font-weight:600;font-size:1.05rem}
+.opt-check{position:absolute;top:-9px;inset-inline-start:-9px;width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:none;place-items:center;border:1.5px solid var(--ink)}
+.opt-check svg{width:13px;height:13px}
+.opt.sel{border-color:var(--green);background:var(--green-soft);transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.opt.sel .opt-check{display:grid}
+.mck{width:24px;height:24px;border:1.5px solid var(--ink);border-radius:7px;background:#fff;flex:none;display:grid;place-items:center;margin-inline-start:auto}
+.mck svg{width:15px;height:15px;color:#fff;opacity:0}
+.opt.sel .mck{background:var(--green);border-color:var(--green)}.opt.sel .mck svg{opacity:1}
+.wiz-foot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.wiz-count{font-size:.85rem;font-weight:700;color:var(--muted)}
+.txtin{width:100%;font-family:inherit;font-size:1.05rem;font-weight:600;padding:14px 16px;border:1.5px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink)}
+.txtin:focus{outline:2.5px solid var(--accent);outline-offset:1px}
+.dash{padding:28px 0 80px}
+.greet{display:flex;align-items:center;gap:10px;font-size:1.05rem;font-weight:700}
+.greet svg{color:var(--accent)}
+.lvlcard{display:flex;align-items:center;gap:18px;padding:18px 20px;margin:14px 0 16px;flex-wrap:wrap}
+.lvl-big{font-size:3rem;font-weight:700;line-height:1;min-width:74px;text-align:center}
+.lvl-side{flex:1;min-width:200px}
+.pblocks{display:flex;gap:5px;margin:8px 0 4px}
+.pblock{width:20px;height:26px;border:1.5px solid var(--ink);border-radius:5px;background:#fff;transition:.2s}
+.pblock.on{background:var(--green);border-color:var(--green)}
+.plab{font-size:.82rem;font-weight:700;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(min-width:720px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px;cursor:pointer;text-align:start;transition:transform .12s,box-shadow .12s}
+.tile:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.tile .tic{width:42px;height:42px;border-radius:12px;border:1.5px solid var(--ink);background:var(--hl);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.tile.pri{background:var(--accent);color:#fff}
+.tile.pri .tic{background:#fff}.tile.pri .tic svg{color:var(--accent)}
+.tile b{font-size:.98rem}.tile span{font-size:.78rem;color:var(--muted);font-weight:600}
+.tile.pri span{color:#FFE4D6}
+.coach{padding:16px 18px;margin-top:16px}
+.coach-h{display:flex;align-items:center;gap:10px;font-weight:700;margin-bottom:8px}
+.coach-h .cav{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--ink);background:var(--hl);display:grid;place-items:center;box-shadow:2px 2px 0 var(--ink)}
+.cmsg{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1.5px dashed var(--ink-15);font-size:.92rem}
+.cmsg:last-child{border:none}
+.cmsg svg{margin-top:5px;color:var(--accent);flex:none}
+.today{padding:26px 0 80px}
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.dcount{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);border-radius:99px;padding:4px 14px;font-weight:700;font-size:.85rem;background:var(--card);box-shadow:2px 2px 0 var(--ink)}
+.dcount svg{color:var(--accent)}
+.lessoncard{padding:20px;margin-bottom:16px}
+.taskrow{display:flex;align-items:center;gap:13px;padding:13px 6px;border-bottom:1.5px dashed var(--ink-15);cursor:pointer;border-radius:8px}
+.taskrow:last-of-type{border:none}
+.taskrow:hover{background:var(--paper)}
+.taskrow .tkic{width:40px;height:40px;border-radius:11px;border:1.5px solid var(--ink);background:var(--hl);display:grid;place-items:center;flex:none;box-shadow:2px 2px 0 var(--ink)}
+.taskrow .tkic svg{width:19px;height:19px}
+.taskrow .tk-t{flex:1;min-width:0}
+.taskrow .tk-t b{display:block;font-size:.96rem}
+.taskrow .tk-t span{font-size:.78rem;color:var(--muted);font-weight:600}
+.tks{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;border:1.5px solid var(--ink);border-radius:99px;padding:2px 11px;background:var(--card);white-space:nowrap}
+.tks.done{background:var(--green);color:#fff;border-color:var(--green)}
+.dtip{margin-top:14px;background:var(--amber-soft);border:1.5px dashed var(--amber);border-radius:10px;padding:9px 13px;display:flex;gap:9px;font-size:.86rem;align-items:flex-start}
+.dtip svg{color:var(--amber);margin-top:4px;flex:none}
+.lect{padding:26px 0 80px}
+.lsec{margin-bottom:22px}
+.lsec>h3{display:flex;align-items:center;gap:9px;font-size:1.08rem;margin-bottom:10px}
+.lsec>h3 .ln{width:30px;height:30px;border-radius:9px;border:1.5px solid var(--ink);background:var(--hl);display:grid;place-items:center;font-size:.85rem;box-shadow:2px 2px 0 var(--ink);flex:none}
+.lsec>p{font-size:.98rem;color:#33291B;margin-bottom:10px}
+.sumlist{list-style:none}
+.sumlist li{position:relative;padding-inline-start:20px;margin-bottom:6px;font-size:.94rem}
+.sumlist li::before{content:'';position:absolute;inset-inline-start:0;top:.62em;width:9px;height:9px;background:var(--hl);border:1.5px solid var(--ink);border-radius:3px}
+.gold{display:flex;gap:11px;background:#FFF3C4;border:1.5px solid var(--ink);border-radius:11px;padding:12px 15px;align-items:flex-start}
+.gold svg{color:var(--accent);margin-top:4px;flex:none}
+.gold b{color:var(--accent);display:block;font-size:.85rem}
+.gold p{font-weight:600;margin:0;font-size:.95rem}
+.diag{padding:30px 0 80px}
+.diag-hero{padding:24px 22px;text-align:center;position:relative;margin-bottom:16px}
+.stamp{position:absolute;top:16px;inset-inline-end:20px;border:2.5px solid var(--accent);color:var(--accent);border-radius:9px;padding:3px 13px;font-weight:700;font-size:.8rem;outline:1.5px solid var(--accent);outline-offset:3px;animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) .3s both}
+.dsec{padding:16px 18px;margin-bottom:14px}
+.dsec h3{display:flex;align-items:center;gap:9px;font-size:1.02rem;margin-bottom:10px;flex-wrap:wrap}
+.dsec h3 svg{color:var(--accent)}
+.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--ink);display:inline-block;flex:none}
+.dot.r{background:var(--red)}.dot.y{background:var(--hl)}.dot.g{background:var(--green)}
+.trow{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1.5px dashed var(--ink-15);font-size:.94rem;flex-wrap:wrap}
+.trow:last-child{border:none}
+.twhy{margin-inline-start:auto;font-size:.78rem;color:var(--muted);font-weight:600}
+.timechip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;border:1.5px solid var(--ink);border-radius:99px;padding:2px 11px;background:var(--card);white-space:nowrap;direction:ltr}
+.statrow{display:flex;flex-wrap:wrap;padding:16px 6px;margin-bottom:16px}
+.stt{flex:1 1 120px;text-align:center;padding:6px 10px;border-inline-start:1.5px dashed var(--ink-15)}
+.stt:first-child{border:none}
+.stt b{font-size:1.6rem;display:block;line-height:1.4}
+.toast{position:fixed;bottom:20px;right:50%;transform:translateX(50%) translateY(24px);opacity:0;background:var(--ink);color:var(--paper);border-radius:12px;padding:12px 20px;display:flex;gap:10px;align-items:center;z-index:99;font-weight:600;font-size:.92rem;transition:.35s;pointer-events:none;max-width:88vw}
+.toast svg{color:var(--hl)}
+.toast.show{opacity:1;transform:translateX(50%)}
+#pdfH{position:fixed;top:-10000px;right:0;width:800px;background:#fff;padding:40px;direction:rtl;color:#241E14;font-family:'IBM Plex Sans Arabic',sans-serif}
+#pdfH h1{font-size:22pt;margin-bottom:4pt;color:#C13A0D}
+#pdfH .ps{font-size:10pt;color:#666;margin-bottom:20pt;border-bottom:2pt solid #C13A0D;padding-bottom:10pt}
+#pdfH .pi{display:grid;grid-template-columns:1fr 1fr;gap:8pt;margin-bottom:16pt}
+#pdfH .pi div{border:1pt solid #ddd;padding:8pt;border-radius:6pt;background:#F9F7F3}
+#pdfH .pi b{display:block;font-size:8pt;color:#888}
+#pdfH .pi span{font-size:11pt;font-weight:700}
+#pdfH .pd{border:1pt solid #ddd;border-radius:6pt;margin-bottom:8pt;overflow:hidden}
+#pdfH .pdh{background:#C13A0D;color:#fff;padding:6pt 10pt;font-weight:700;font-size:11pt}
+#pdfH .pdb{padding:6pt 10pt}
+#pdfH .pt{display:flex;justify-content:space-between;padding:4pt 0;border-bottom:.5pt dotted #ccc;font-size:10pt}
+#pdfH .pn{background:#FFF9E6;border:1pt solid #E6D180;border-radius:6pt;padding:8pt 12pt;margin-top:10pt;font-size:9pt}
+#pdfH .pf{margin-top:16pt;text-align:center;font-size:8pt;color:#999;border-top:1pt solid #eee;padding-top:8pt}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.auth-view{min-height:calc(100vh - 150px);display:flex;align-items:center;justify-content:center;padding:50px 20px 80px}
+.auth-card{width:min(460px,100%);background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:34px;box-shadow:7px 7px 0 var(--ink);position:relative;overflow:hidden}
+.auth-card:before{content:"";position:absolute;top:0;inset-inline-start:0;inset-inline-end:0;height:7px;background:var(--accent)}
+.auth-brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:24px;font-size:1.5rem;font-weight:900}
+.auth-title{text-align:center;margin:0 0 8px;font-size:1.8rem}.auth-sub{text-align:center;color:var(--muted);margin:0 0 24px;line-height:1.7}
+.auth-field{margin-bottom:16px}.auth-field label{display:block;font-weight:800;margin-bottom:7px}.auth-field input{width:100%;box-sizing:border-box;padding:13px 14px;border:1.7px solid var(--ink);border-radius:12px;background:#fff;font:inherit;outline:none}.auth-field input:focus{box-shadow:3px 3px 0 var(--ink);transform:translate(-1px,-1px)}
+.auth-submit{width:100%;margin-top:4px}.auth-switch{text-align:center;margin-top:18px;color:var(--muted)}.auth-switch button{background:none;border:0;color:var(--accent);font:inherit;font-weight:900;cursor:pointer}.auth-forgot{display:block;text-align:end;margin-top:-6px;margin-bottom:10px;color:var(--accent);font-size:.88rem;font-weight:800;background:none;border:0;cursor:pointer;padding:0}
+.auth-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:18px;line-height:1.6}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap bar-in">
+    <span class="brand" data-act="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span>
+      <span class="brand-txt">Study<b>Rescue</b></span>
+    </span>
+    <nav class="nav-actions" id="navActs"></nav>
+  </div>
+</header>
+<main>
+<section id="v-home" class="view on"><div id="homeBox"></div></section>
+<section id="v-auth" class="view"><div class="auth-view"><div class="auth-card" id="authBox"></div></div></section>
+<section id="v-ob" class="view"><div class="wrap n7 wiz" id="obWrap"></div></section>
+<section id="v-dash" class="view"><div class="wrap n9 dash" id="dashBox"></div></section>
+<section id="v-today" class="view"><div class="wrap n7 today" id="todayBox"></div></section>
+<section id="v-start" class="view"><div class="wrap n7 today" id="startBox"></div></section>
+<section id="v-task" class="view"><div class="wrap n6 today" id="taskBox"></div></section>
+<section id="v-planner" class="view"><div class="wrap n9" style="padding:30px 0 80px" id="plannerBox"></div></section>
+<section id="v-routine" class="view"><div class="wrap n7" style="padding:30px 0 80px" id="routineBox"></div></section>
+<section id="v-methods" class="view"><div class="wrap n9" style="padding:30px 0 80px" id="methodsBox"></div></section>
+<section id="v-method" class="view"><div class="wrap n7 lect" id="methodBox"></div></section>
+<section id="v-tips" class="view"><div class="wrap n7" style="padding:30px 0 80px" id="tipsBox"></div></section>
+<section id="v-prog" class="view"><div class="wrap n7" style="padding:30px 0 80px" id="progBox"></div></section>
+<section id="v-goal" class="view"><div class="wrap n6" style="padding:30px 0 80px" id="goalBox"></div></section>
+</main>
+<footer class="foot"><div class="wrap"><span><b>Study Rescue</b> &mdash; مدربك الدراسي الذكي</span><span>مجاني بالكامل · يعمل على جهازك</span></div></footer>
+<div class="toast" id="toast"></div>
+<div id="pdfH"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>if(!window.supabase){document.write('<script src="https://unpkg.com/@supabase/supabase-js@2"><\\/script>')}</script>
+<script>
+var SUPABASE_URL = "https://cbiwuzcvotbmrvacmtnc.supabase.co";
+var SUPABASE_PUBLISHABLE_KEY = "sb_publishable_00bz4ETrfd4GBcTMOpaZ1w_EuQRisLL";
+var SUPABASE_READY = SUPABASE_URL.indexOf("YOUR_") !== 0 && SUPABASE_PUBLISHABLE_KEY.indexOf("YOUR_") !== 0 && !!window.supabase;
+var sb = SUPABASE_READY ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}) : null;
+var SB_USER = null;
+var REMOTE_SAVE_TIMER = null;
+function backendConfigured(){return !!(SUPABASE_READY && sb)}
+function backendMsg(){return LANG==='en' ? 'Supabase could not be loaded. Open the latest Study Rescue file or host it on a web page, then try again.' : 'تعذر تحميل Supabase. افتحي أحدث نسخة من Study Rescue أو شغّليها عبر صفحة ويب ثم حاولي مرة أخرى.'}
+function requireBackend(){if(!backendConfigured()){toast(backendMsg(),'x');return false}return true}
+
+function $(s){return document.querySelector(s)}
+var ARD='٠١٢٣٤٥٦٧٨٩';
+var LANG=(function(){try{return localStorage.getItem('sr_lang')||'ar'}catch(e){return'ar'}})();
+var EN={
+'مدربك الدراسي الذكي':'Your Smart Study Coach','سلطنة عُمان':'Oman','الصفوف ٧-١٢':'Grades 7–12','حوّل ضعفك الدراسي إلى ':'Turn your academic weakness into a ','خطة واضحة':'clear plan','خطتك الدراسية الشخصية، نصائحك، جدولك ومهامك اليومية — مبنية على حالتك الدراسية.':'Your personalized study plan, tips, schedule, and daily tasks — built around your study situation.','ابدأ الآن':'Get Started','كيف يعمل؟':'How it works','بياناتك الدراسية تُستخدم لبناء خطة تناسب صفك ووقتك وهدفك':'Your study data is used to build a plan that fits your grade, time, and goal','جرّب بنفسك':'Try it yourself','اسحب المؤشر وشاهد رحلتك':'Drag the slider and see your progress','مقبول':'Fair','ضعيف':'Needs work','جيد':'Good','جيد جدًا':'Very good','ممتاز':'Excellent','مدرب يعرفك':'A coach that knows you','مدرب يساعدك على كيف وماذا ومتى تذاكر.':'A coach that helps you decide how, what, and when to study.','حدد هدفك':'Set your goal','أخبر المدرب بصفك ودرجتك وهدفك.':'Tell your coach your grade, current level, and goal.','افهم مشكلتك':'Understand your challenge','نشخص السبب ونعطيك خطوات عملية.':'Identify the cause and get practical steps.','نظم وقتك':'Organize your time','جدول ومهام يوم باليوم.':'A daily schedule and tasks.','تابع تحسنك':'Track your progress','يتذكر مدربك كل شيء ويعدل الخطة.':'Your coach remembers your progress and adjusts the plan.','المواد':'Subjects','مواد الصفوف 7-12':'Subjects for grades 7–12','خطط دراسية':'Study plans','ماذا أدرس اليوم؟':'What should I study today?','طرق مذاكرة':'Study methods','خطتك جاهزة':'Your plan is ready','مرحبا،':'Hi,','لوحتي':'My Dashboard','خطة جديدة':'New Plan','خطتي':'My Plan','الجدول والروتين':'Schedule & routine','كيف أذاكر؟':'How do I study?','طرق ونصائح مناسبة لك':'Methods & tips for you','تقدمي':'My Progress','تقدمك وهدفك':'Your progress & goal','نصائح لك':'Tips for you','تقدمي الدراسي':'My academic progress','هدفي':'My Goal','هدفك':'Your goal','روتيني الدراسي':'My Study Routine','روتيني':'My Routine','ساعدني أبدأ':'Help me start','تحميل الخطة PDF':'Download PDF','تحميل PDF':'Download PDF','مساعدك الدراسي الذكي':'Your smart study coach','مساعدك الدراسي':'Your study coach','اليوم':'Today','مهام':'tasks','دقيقة':'min','دقائق':'mins','حوالي':'about','أنجزت!':'Done!','أنجزت':'Done','أنهيت اليوم':'Finish today','مكتمل':'Completed','ابدأ':'Start','اختر':'Choose','استراحة':'Break','مراجعة':'Review','مراجعة قصيرة':'Quick review','مفهوم واحد':'One concept','مفهوم':'Concept','تطبيق':'Practice','استرجاع':'Recall','استرجاع ختامي':'Final recall','أنجزت جلستك':'Session completed','انتهى وقت المهمة':'Task time is up','استئناف':'Resume','إيقاف':'Pause','كم من الوقت لديك؟':'How much time do you have?','جلستك':'Your session','جدول مذاكرة شخصي':'Personal study schedule','دقيقة يوميًا':'minutes per day','جلسات':'sessions','روتيني الدراسي':'My study routine','نصائح مخصصة لك':'Personalized tips for you','تطورك الدراسي':'Your academic progress','تابع تقدمك وشوف هدفك في مكان واحد.':'Track your progress and see your goal in one place.','عرض هدفي':'View my goal','دقيقة مذاكرة':'study minutes','أيام':'days','مهام':'tasks','متتالية':'streak','مهارات':'skills','عدّل هدفك':'Adjust your goal','الوصول إلى':'Reach','الدرجة الحالية':'Current level','درجتك الحالية':'Current level','هدفك:':'Your goal:','تقدمك:':'Your progress:','الصف':'Grade','المادة':'Subject','الوقت اليومي':'Daily study time','الاسم':'Name','الهدف':'Goal','خطتك الدراسية':'Your study plan','خطة مذاكرة شخصية':'Personal study plan','الجدول الأسبوعي':'Weekly schedule','استراحة':'Break','ملاحظة Study Coach:':'Study Coach note:','نفس النصيحة لكل طالب':'the same advice for every student','لا نعرض نفس النصيحة لكل طالب؛ نستخدم مشكلتك ووقتك وموعد اختبارك وتقدمك.':'We do not give every student the same advice; we use your challenge, time, exam date, and progress.','ما هي؟':'What is it?','متى؟':'When?','كيف؟':'How?','مثال':'Example','عملي':'Practical','طبقتها':'I tried it','طبقتها ✓':'Tried ✓','نصيحة':'Tip','جرب':'Try it','كيف نناديك؟':'What should we call you?','في أي صف تدرس؟':'What grade are you in?','ما المادة التي تريد رفع درجتك فيها؟':'Which subject do you want to improve?','ما درجتك التقريبية؟':'What is your approximate current grade?','ما الدرجة التي تريد؟':'What grade do you want to reach?','ما المشكلات التي تواجهك؟':'What challenges are you facing?','كم وقتًا يوميًا؟':'How much time do you have each day?','متى اختبارك القادم؟':'When is your next exam?','اسمك':'Your name','التالي':'Next','السابق':'Back','ابنِ خطتي':'Build my plan','الاختبار':'Exam','مشكلتي':'My challenge','وقتي':'My time','هدفي':'My goal','درجتي':'My current grade','المادة':'Subject','الصف':'Grade','بياناتك الدراسية':'Your study data','اختبارك':'Your exam','هدفك':'Your goal','وقتك':'Your time','مشكلتك':'Your challenge','صفك':'Your grade','خطة واضحة':'clear plan','نظم وقتك':'Organize your time','تعلّم':'Learn','أولوية اليوم':'Today’s priority','تطبيق وتحليل أخطاء':'Practice & error analysis','مراجعة متباعدة':'Spaced review','مادة ثانية':'Second subject','أعلى نقطة ضعف':'Top weak area','تطبيق بزمن':'Timed practice','مراجعة ختامية':'Final review','فهم فكرة واحدة':'Understand one idea','تطبيق قصير':'Short practice','استرجاع':'Recall','مراجعة خفيفة':'Light review','استرجاع إضافي':'Extra recall','طرق مناسبة للصف':'Methods for grade','نصائح مخصصة':'Personalized tips','خطة':'Plan','تنزيل':'Download','حفظنا روتينك':'Your routine was saved','مهارة جديدة':'New skill','أنهيت يومك':'You finished your day','خطتك جاهزة!':'Your plan is ready!','أيام — الأولوية الآن للاستعداد للاختبار':'days left — exam preparation is the priority now','لأن مشكلتك النسيان، ستظهر لك مراجعات استرجاعية في الخطة':'Because forgetting is your challenge, recall reviews will appear in your plan','هدفك':'Your goal','خطتك تتغير حسب صفك ووقتك ومشكلتك':'Your plan changes based on your grade, time, and challenge','حاليًا':'Current','مقبول':'Fair','نحوّل الفهم إلى درجات.':'turn understanding into results.','مستواك صاعد.':'Your level is improving.','قريب من القمة.':'You are getting close to your goal.','حافظ على الإيقاع.':'Keep the momentum.','جرّب بنفسك':'Try it yourself','كيف وماذا ومتى تذاكر':'how, what, and when to study','خطة':'Plan','الجدول والروتين':'Schedule & routine','طرق ونصائح مناسبة لك':'Methods & tips for you','تقدمك وهدفك':'Your progress & goal','بياناتك الدراسية تُستخدم لبناء خطة تناسب صفك ووقتك وهدفك':'Your study data is used to build a plan that fits your grade, time, and goal'
+};
+var AR={};Object.keys(EN).forEach(function(k){AR[EN[k]]=k});
+Object.assign(EN,{
+'بناء عادة مذاكرة بسيطة ومستمرّة':'Build a simple, consistent study habit','رفع جودة المذاكرة وتنظيم عدة مواد':'Improve study quality and organize multiple subjects','الكفاءة والاستعداد الأكاديمي المكثف':'Efficiency and focused academic preparation','جلسات':'sessions','استراحة':'Break','الجلسة الأساسية':'Main study session','مراجعة قبل النوم':'Review before sleep','نوافذ مقترحة':'Suggested study windows','نظم وقتك':'Organize your time','أدخل أوقات يومك وسنقترح نوافذ المذاكرة.':'Enter your daily times and we will suggest study windows.','الاستيقاظ':'Wake-up','العودة من المدرسة':'Back from school','النوم':'Sleep','احفظ':'Save','حسب مادتك':'For your subject','تحدٍات':'Challenges','أساسية':'Core','نصيحة خاصة بـ ':'Tip for ','طريقة ثانية للمادة':'Another tip for your subject','اختبارك غدًا':'Your exam is tomorrow','لديك يوم واحد فقط: ركّز على أهم نقاط الضعف، طبّق عليها، ثم اعمل استرجاعًا خفيفًا في النهاية.':'You have only one day: focus on the most important weak areas, practice them, then finish with light recall.','اختبارك خلال أسبوع':'Your exam is within a week','لديك وقت لبناء مستواك':'You have time to build your level','وقتك محدود':'Your time is limited','لديك وقت أطول':'You have more time','جلسة واحدة قصيرة':'One short session',
+'اللغة العربية':'Arabic','اللغة الإنجليزية':'English','الرياضيات':'Mathematics','التربية الإسلامية':'Islamic Education','العلوم':'Science','الدراسات الاجتماعية':'Social Studies','الكيمياء':'Chemistry','الفيزياء':'Physics','الأحياء':'Biology',
+'خططي الدراسية':'My Study Plans','إنشاء خطة':'Create Plan','عرض الخطة':'View Plan','لا توجد خطة بعد':'No plan yet','الاختبار بعد ':'Exam in ','يومًا':'days','يوم':'day','أسبوع':'week','أسابيع':'weeks','الأحد':'Sunday','الاثنين':'Monday','الثلاثاء':'Tuesday','الأربعاء':'Wednesday','الخميس':'Thursday','الجمعة':'Friday','السبت':'Saturday',
+'طريقة المادة اليوم':'Subject-specific method today','الاختبار قريب جدًا':'The exam is very close','الاختبار خلال أسبوع':'Exam within a week','لديك وقت لبناء مستواك':'You have time to build your level','وقتك محدود':'Your time is limited','لديك وقت أطول':'You have more time','هذه التوصية مبنية على صفك ووقتك وهدفك.':'This recommendation is based on your grade, time, and goal.','نصيحة':'Tip','جرب':'Try','نصائح مخصصة للصف':'Personalized tips for grade',
+'بكرة':'tomorrow','غدًا':'tomorrow','قبل الاختبار':'before the exam','آخر يوم':'last day','اليوم فقط':'today only',
+'المرحلة المتوسطة':'Middle school','المرحلة الثانوية':'High school','الصف 12':'Grade 12',
+'فهم المثال ثم الحل الفعلي وتحليل الأخطاء':'Understand the example, then solve and analyze errors','فهم الفكرة والقانون ومتى يستخدم ثم التطبيق':'Understand the concept and formula, when to use it, then apply it','ربط المفاهيم قبل الحفظ ثم التطبيق على أمثلة':'Connect concepts before memorizing, then apply them to examples','تقسيم المفاهيم واسترجاعها وشرح العلاقات بينها':'Break concepts down, recall them, and explain their relationships','التطبيق على القراءة والكتابة والمفردات بدل الاكتفاء بالقراءة':'Practice reading, writing, and vocabulary instead of only reading','فهم القاعدة أو النص ثم تطبيقها واسترجاعها من الذاكرة':'Understand the rule or text, then apply it and recall it from memory','فهم المعنى وتقسيم المادة ثم استرجاع النقاط الأساسية':'Understand the meaning, split the material, and recall the key points','ربط الأسباب والنتائج والأفكار ثم استرجاعها على دفعات':'Connect causes, effects, and ideas, then recall them in batches','فهم المفهوم ثم شرحه وتطبيقه على أمثلة':'Understand the concept, explain it, and apply it to examples'
+});
+Object.assign(EN,{
+'نصيحة خاصة بـ الرياضيات':'Tip for Mathematics','نصيحة خاصة بـ اللغة الإنجليزية':'Tip for English','نصيحة خاصة بـ اللغة العربية':'Tip for Arabic','نصيحة خاصة بـ التربية الإسلامية':'Tip for Islamic Education','نصيحة خاصة بـ العلوم':'Tip for Science','نصيحة خاصة بـ الدراسات الاجتماعية':'Tip for Social Studies','نصيحة خاصة بـ الكيمياء':'Tip for Chemistry','نصيحة خاصة بـ الفيزياء':'Tip for Physics','نصيحة خاصة بـ الأحياء':'Tip for Biology',
+'حل بنفسك قبل النظر للحل':'Solve it yourself before looking at the solution','اكتب سبب كل خطأ في خطوة واحدة':'Write the reason for each mistake in one sentence','ابدأ بالمسائل التي تمثل نقطة ضعفك':'Start with problems that target your weak area','قسّم الجلسة بين مفردات وقواعد وتطبيق':'Split the session between vocabulary, grammar, and practice','اكتب جملًا جديدة بالكلمات التي تعلمتها':'Write new sentences using the words you learned','اقرأ فقرة قصيرة ثم لخّصها بكلماتك':'Read a short paragraph and summarize it in your own words','طبّق القاعدة بدل إعادة قراءتها فقط':'Apply the rule instead of only rereading it','لخّص النص أو الفكرة بكلماتك':'Summarize the text or idea in your own words','راجع أخطاء الكتابة والقواعد المتكررة':'Review your repeated writing and grammar mistakes','قسّم الحفظ إلى مقاطع قصيرة':'Break memorization into short sections','استرجع من الذاكرة قبل فتح المصدر':'Recall from memory before opening the source','اربط المعنى بالنقاط التي تحتاج حفظها':'Connect the meaning to the points you need to memorize','اشرح المفهوم بكلماتك دون نظر':'Explain the concept in your own words without looking','استخدم الرسومات والمقارنات لفهم العلاقات':'Use diagrams and comparisons to understand relationships','اربط كل مفهوم بمثال أو تطبيق':'Connect each concept to an example or application','اربط المعادلة بالمفهوم الذي تشرحه':'Connect the equation to the concept it represents','تدرّب على موازنة المعادلات والخطوات الحسابية':'Practice balancing equations and calculation steps','سجّل الأخطاء المتكررة في ورقة واحدة':'Record repeated mistakes on one sheet','اكتب المعطيات والمطلوب قبل اختيار القانون':'Write the givens and what is required before choosing the formula','تأكد من الوحدات قبل الحساب':'Check the units before calculating','حل مسألة ثم راجع لماذا اخترت القانون':'Solve a problem, then review why you chose the formula','قسّم العمليات إلى خطوات مترابطة':'Break processes into connected steps','ارسم أو سمِّ الأجزاء من الذاكرة':'Draw or name the parts from memory','قارن بين المفاهيم المتشابهة حتى لا تختلط':'Compare similar concepts so they do not get mixed up','اربط السبب بالنتيجة بدل الحفظ المنفصل':'Connect cause and effect instead of memorizing separately','استخدم خطًا زمنيًا عند الحاجة':'Use a timeline when helpful','استرجع الشخصيات والمفاهيم من الذاكرة ثم صححها':'Recall people and concepts from memory, then correct them',
+'عالج النسيان':'Address forgetting','ارفع جودة المذاكرة':'Improve study quality','ابدأ بدون تأجيل':'Start without delaying','قلل التشتيت':'Reduce distractions','توصية حسب حالتك':'Recommendation for your situation','طريقة ثانية للمادة':'Another tip for your subject','نصيحة إضافية للمادة':'Additional tip for your subject','اختبارك غدًا':'Your exam is tomorrow','لديك يوم واحد فقط: ركّز على أهم نقاط الضعف، طبّق عليها، ثم اعمل استرجاعًا خفيفًا في النهاية.':'You have only one day: focus on the most important weak areas, practice them, then finish with light recall.','الاختبار قريب جدًا':'The exam is very close','ركّز على أعلى نقاط الضعف ثم التطبيق، واترك آخر جزء من اليوم للمراجعة الخفيفة.':'Focus on the most important weak areas and practice, then use the final part of the day for light review.','الاختبار خلال أسبوع':'Exam within a week','وزّع الأيام بين الفهم والتطبيق والمراجعة بدل ترك كل شيء لآخر يوم.':'Spread the days across understanding, practice, and review instead of leaving everything to the last day.','لديك وقت لبناء مستواك':'You have time to build your level','استخدم الأيام الأولى للفهم والضعف، ثم زد المراجعة كلما اقترب الاختبار.':'Use the first days for understanding and weak areas, then increase review as the exam gets closer.','وقتك محدود':'Your time is limited','لديك ':'You have ',' دقيقة؛ اختر مهمة أساسية واحدة وأنهِها بدل الانتقال بين عدة أشياء.':' minutes; choose one main task and finish it instead of switching between several things.','لديك وقت أطول':'You have more time','قسّم ':'Split ',' دقيقة إلى جلسات وفواصل حتى تحافظ على التركيز.':' minutes into sessions and breaks to maintain focus.'
+});
+Object.keys(EN).forEach(function(k){AR[EN[k]]=k});
+function tx(ar,en){return LANG==='en'?(en||EN[ar]||ar):ar}
+function toEnNums(s){return String(s).replace(/[٠-٩]/g,function(d){return String(ARD.indexOf(d))})}
+function applyLang(){
+  document.documentElement.lang=LANG==='en'?'en':'ar';document.documentElement.dir=LANG==='en'?'ltr':'rtl';document.body.classList.toggle('en',LANG==='en');
+  var root=document.body;
+  var map=LANG==='en'?EN:AR;
+  var walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,null,false),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(function(n){if(!n.nodeValue.trim())return;var x=n.nodeValue;Object.keys(map).sort(function(a,b){return b.length-a.length}).forEach(function(k){x=x.split(k).join(map[k])});if(LANG==='en')x=toEnNums(x);else x=x.replace(/[0-9]/g,function(d){return ARD[+d]});n.nodeValue=x});
+  root.querySelectorAll('input[placeholder],textarea[placeholder]').forEach(function(el){var map2=LANG==='en'?EN:AR;var v=el.getAttribute('placeholder');Object.keys(map2).sort(function(a,b){return b.length-a.length}).forEach(function(k){v=v.split(k).join(map2[k])});el.setAttribute('placeholder',v)});
+  navTop();
+}
+function toggleLang(){LANG=LANG==='ar'?'en':'ar';try{localStorage.setItem('sr_lang',LANG)}catch(e){}; if(curV==='v-home'){home();go('v-home')} else if(curV==='v-dash'){renderDash()} else if(curV==='v-today'){rToday()} else if(curV==='v-start'){rStart()} else if(curV==='v-planner'){rPlanner()} else if(curV==='v-routine'){rRoutine()} else if(curV==='v-methods'){rMethods()} else if(curV==='v-tips'){rTips()} else if(curV==='v-prog'){rProg()} else if(curV==='v-goal'){rGoal()} else if(curV==='v-ob'){rOb()} else if(curV==='v-auth'){rAuth()} else {applyLang()} applyLang();}
+
+function toAr(n){var z=String(n);return LANG==='en'?z:z.replace(/[0-9]/g,function(d){return ARD[+d]})}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+function todayKey(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+var toastT=null;
+function toast(m,i){var t=$('#toast');t.innerHTML=ic(i||'check')+'<span>'+m+'</span>';t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('show')},3200)}
+var IC={check:'<polyline points="20 6 9 17 4 12"/>',x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',arrl:'<line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>',arrr:'<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',up:'<polyline points="4 17 10 11 14 15 20 8"/><polyline points="15 8 20 8 20 13"/>',rot:'<path d="M3 12a9 9 0 1 0 2.6-6.4"/><polyline points="3 4 3 9 8 9"/>',cal:'<rect x="4" y="5" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="9" y1="3" x2="9" y2="7"/><line x1="15" y1="3" x2="15" y2="7"/>',book:'<path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16l-8-4-8 4z"/>',pen:'<path d="M4 20l4-1L20 7a2 2 0 0 0-3-3L5 16z"/>',target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',bot:'<rect x="5" y="8" width="14" height="11" rx="2"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/>',bulb:'<path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/>',flag:'<path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/>',flame:'<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-5 .5 1.5 1.5 2 2 2 0-2 0-4 1-6z"/>',clock:'<circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/>',zap:'<polygon points="13 2 4 14 11 14 10 22 20 9 13 9"/>',brain:'<path d="M9 3a4 4 0 0 0-4 4c-1.5.5-2.5 2-2.5 3.5S3.5 13 5 13.5c0 2 1.5 3.5 3.5 3.5.5 1.5 2 2.5 3.5 2.5s3-1 3.5-2.5c2 0 3.5-1.5 3.5-3.5 1.5-.5 2.5-2 2.5-3.5S20.5 7.5 19 7c0-2-1.5-4-4-4-1-1-2-1-3 0z"/>',coffee:'<path d="M4 8h13v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M17 9h2a2 2 0 0 1 0 4h-2"/>',note:'<path d="M5 4h11l3 3v13H5z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/>',timer:'<circle cx="12" cy="13" r="8"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="13" x2="15" y2="13"/>',edit3:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',layers:'<polygon points="12 2 2 7 12 12 22 7"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',play:'<polygon points="6 4 20 12 6 20"/>',pause:'<line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/>',dl:'<path d="M12 3v12"/><polyline points="7 11 12 16 17 11"/><path d="M4 21h16"/>',map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><line x1="9" y1="4" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="20"/>',atom:'<circle cx="12" cy="12" r="1.4"/><ellipse cx="12" cy="12" rx="9" ry="4"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(120 12 12)"/>',moon:'<path d="M20 13A8 8 0 1 1 11 4a6.5 6.5 0 0 0 9 9z"/>',sigma:'<path d="M17 5H7l6 7-6 7h10"/>',lang:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9z"/>',hist:'<path d="M3 12a9 9 0 1 0 3-6.7"/><polyline points="3 4 3 9 8 9"/><polyline points="12 7 12 12 15.5 14"/>',repeat:'<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/>',warn:'<path d="M12 3l10 18H2z"/><line x1="12" y1="10" x2="12" y2="14"/>',clip:'<rect x="6" y="5" width="12" height="17" rx="2"/><path d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/><polyline points="9 13 11 15 15 10"/>',flask:'<path d="M10 2v6.5L4.2 18.2A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.3-2.3L14 8.5V2"/><line x1="8" y1="2" x2="16" y2="2"/>',dna:'<path d="M6 3c0 7 12 4 12 11"/><path d="M18 3c0 7-12 4-12 11"/><line x1="8" y1="6" x2="11.5" y2="6"/><line x1="12.5" y1="11" x2="16" y2="11"/>'};
+function ic(n){return '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(IC[n]||IC.check)+'</svg>'}
+var SUBJ={ISL:['التربية الإسلامية','moon'],ARA:['اللغة العربية','book'],ENG:['اللغة الإنجليزية','lang'],MAT:['الرياضيات','sigma'],SOC:['الدراسات الاجتماعية','map'],SCI:['العلوم','atom'],PHY:['الفيزياء','zap'],CHE:['الكيمياء','flask'],BIO:['الأحياء','dna']};
+var GS={7:['ISL','ARA','ENG','MAT','SCI','SOC'],8:['ISL','ARA','ENG','MAT','SCI','SOC'],9:['ISL','ARA','ENG','MAT','SOC','PHY','CHE','BIO'],10:['ISL','ARA','ENG','MAT','SOC','PHY','CHE','BIO'],11:['ISL','ARA','ENG','MAT','SOC','PHY','CHE','BIO'],12:['ISL','ARA','ENG','MAT','SOC','PHY','CHE','BIO']};
+var METHODS=[
+{id:'recall',cat:'g',ic:'brain',n:'الاسترجاع النشط',w:'أغلق الدرس واكتب ما تتذكره ثم قارن بالكتاب.',wh:'بعد أول قراءة وقبل النوم.',h:['اقرأ مرة واحدة','أغلق واكتب ما تتذكره','قارن وعدّل','أعد غدًا'],ex:'أغلق درس الذرة واكتب مكوناتها من رأسك ثم قارن.'},
+{id:'spaced',cat:'g',ic:'repeat',n:'المراجعة المتباعدة',w:'راجع بعد يوم ثم ٣ أيام ثم أسبوع ثم شهر.',wh:'لكل ما تريد أن يبقى في ذاكرتك.',h:['بعد يوم','بعد ٣ أيام','بعد أسبوع','بعد شهر'],ex:'درست النسب اليوم؟ راجعها غدًا ثم بعد ٣ أيام.'},
+{id:'pomodoro',cat:'g',ic:'timer',n:'تقنية بومودورو',w:'٢٥ دقيقة تركيز ثم ٥ دقائق استراحة.',wh:'إذا تتشتت أو تجلس بلا إنجاز.',h:['حدد مهمة واحدة','مؤقت ٢٥ دقيقة والهاتف بعيد','استرح ٥ دقائق','كرر'],ex:'جلسة ١: فهم. استراحة. جلسة ٢: حل.'},
+{id:'blurting',cat:'g',ic:'note',n:'الكتابة الانهمارية',w:'اكتب كل ما تتذكره دفعة واحدة ثم املأ الفجوات بلون مختلف.',wh:'قبل الاختبارات.',h:['ورقة واكتب بلا نظر','املأ الفجوات بلون مختلف','الملون مراجعتك'],ex:'ورقة قوانين نيوتن من رأسك ثم أكمل بالأحمر.'},
+{id:'notes',cat:'g',ic:'edit3',n:'التدوين النشط',w:'دوّن بصياغتك مع أسئلة في الهامش.',wh:'أثناء أول قراءة.',h:['اكتب الفكرة بكلماتك','أسئلة في الهامش','راجعها بعد يوم'],ex:'بدل نسخ الفاعل مرفوع اكتب: من فعل يرفع دائمًا؟'},
+{id:'practice',cat:'g',ic:'pen',n:'التطبيق العملي',w:'الحل الفعلي — الاختبار يقيس حلك.',wh:'بعد كل درس وقبل كل اختبار.',h:['اجمع أمثلة','حل بورقة وقلم','علل كل خطأ','أعد الخاطئة غدًا'],ex:'بعد الكسور: حل عشرة تدريبات.'},
+{id:'errors',cat:'g',ic:'rot',n:'مراجعة الأخطاء',w:'ورقة لكل خطأ: السؤال والسبب والتصحيح.',wh:'بعد كل تدريب.',h:['ورقة أخطائي','اكتب السبب بصدق','راجعها قبل كل اختبار'],ex:'خطأ: جمعت البسطين والمقامين. السبب: نسيان التوحيد.'},
+{id:'math',cat:'s',ic:'sigma',n:'كيف أذاكر الرياضيات؟',w:'٧٠٪ من وقتك حل فعلي.',wh:'كل جلسة.',h:['افهم من مثال','أعد المثال بنفسك','حل ٥-١٠ مسائل','حلل الأخطاء وأعدها غدًا'],ex:'درس المعادلات: مثال واحد ثم ثمانية مسائل.'},
+{id:'physics',cat:'s',ic:'zap',n:'كيف أذاكر الفيزياء؟',w:'افهم لماذا يحدث ثم متى يصلح القانون.',wh:'كل جلسة.',h:['افهم المفهوم','القانون ومتى يصلح','مثال خطوة بخطوة','حل وصنف أخطاءك'],ex:'نيوتن الثاني: لماذا الأثقل يحتاج قوة أكبر ثم حل.'},
+{id:'chem',cat:'s',ic:'flask',n:'كيف أذاكر الكيمياء؟',w:'شبكة مفاهيم مترابطة.',wh:'كل جلسة.',h:['افهم قبل الحفظ','اربط بخريطة','طبق على أمثلة','حل أسئلة متنوعة'],ex:'الروابط: خريطة بين الأيونية والتساهمية.'},
+{id:'bio',cat:'s',ic:'dna',n:'كيف أذاكر الأحياء والنظرية؟',w:'افهم القصة ثم استرجعها.',wh:'كل جلسة.',h:['قسم لقطع','افهم القصة','استرجع بالكتابة','راجع متباعدًا'],ex:'الخلية: تخيلها مصنعًا واشرح كل جزء.'},
+{id:'theory',cat:'s',ic:'book',n:'كيف أذاكر المواد النظرية؟',w:'الحفظ بلا استرجاع يتبخر في ٤٨ ساعة.',wh:'للمواد النصية.',h:['قسم لقطع','استرجع بالكتابة','راجع متباعدًا','اختبر نفسك قبل النوم'],ex:'أركان الإسلام: اكتب كل ركن من ذاكرتك.'},
+{id:'examrev',cat:'c',ic:'clip',n:'كيف أراجع قبل الاختبار؟',w:'استرجاع وظروف اختبار لا قراءة.',wh:'آخر ٣-٧ أيام.',h:['استرجاع نشط','تدريب بزمن حقيقي','راجع ورقة أخطائك','آخر يومين: خفيف ونوم'],ex:'قبل ٣ أيام: فهم ثم تدريب ثم مراجعة.'},
+{id:'procrast',cat:'c',ic:'flame',n:'كيف أتخلص من التسويف؟',w:'التأجيل هروب من مهمة بلا حدود.',wh:'كلما أجّلت.',h:['ابدأ بخمس دقائق','قسم لمهام صغيرة','ابدأ بالأسهل','كافئ نفسك'],ex:'لا تقرر ساعتين. قرر: خمس دقائق فقط.'},
+{id:'focus',cat:'c',ic:'target',n:'كيف أركز؟',w:'التشتت مشكلة بيئة قبل الإرادة.',wh:'كل جلسة.',h:['الهاتف في غرفة أخرى','جلسات ٢٥ دقيقة','مكان ووقت ثابتان'],ex:'قبل الجلسة: هاتف بعيد، ماء، مهمة واحدة.'}];
+var PROBLEMS=[
+{id:'forget',lab:'أفهم لكن أنسى بسرعة',sub:'أعود بعد أسبوع وكأني لم أره',c:'المذاكرة السلبية لا تثبت المعلومة.',f:['أغلق الدرس واكتب ما تتذكره','راجع بعد يوم ثم ٣ أيام ثم أسبوع','اشرح بصوت مسموع'],mid:'recall'},
+{id:'lowgrades',lab:'أذاكر كثيرًا ودرجاتي لا ترتفع',sub:'ساعات بلا نتيجة',c:'الوقت يذهب قراءة والاختبار يقيس الحل.',f:['اجعل ٧٠٪ وقتك حلًا','طبق بعد كل درس فورًا','دون أخطاءك وراجعها'],mid:'practice'},
+{id:'start',lab:'لا أعرف كيف أبدأ',sub:'أفتح الكتاب وأغلقه',c:'غياب خطة واضحة.',f:['ابدأ بخمس دقائق','استخدم ساعدني أبدأ'],mid:'pomodoro'},
+{id:'distract',lab:'أتشتت',sub:'كل دقيقة للهاتف',c:'البيئة قبل الإرادة.',f:['الهاتف في غرفة أخرى','جلسات ٢٥ دقيقة'],mid:'focus'},
+{id:'delay',lab:'أؤجل المذاكرة',sub:'غدًا وهذا الغد لا يأتي',c:'مهمة بلا حدود تخيف الدماغ.',f:['قسم لمهام صغيرة','ابدأ بالأسهل','كافئ نفسك'],mid:'procrast'},
+{id:'examerr',lab:'أخطئ في الاختبار وأعرف الحل',sub:'أتذكر فور الخروج',c:'سرعة القراءة وعدم التدرب بظروف الوقت.',f:['اقرأ السؤال مرتين','الأسهل أولًا','تدرب بزمن حقيقي'],mid:'examrev'},
+{id:'nosched',lab:'ليس لدي جدول ثابت',sub:'أذاكر عند الحالة',c:'بلا وقت ثابت = قرار جديد كل يوم.',f:['وقت ثابت يوميًا','استخدم روتيني الدراسي'],mid:'pomodoro'}];
+var TIPS=[
+{t:'تذاكر فترات طويلة دون توقف؟',a:'جرب ٢٥ دقيقة مع ٥ راحة.',f:['lowgrades','nosched']},
+{t:'تنسى بسرعة؟',a:'استبدل القراءة بالاسترجاع النشط.',f:['forget']},
+{t:'الهاتف الصامت يستهلك تركيزك.',a:'ضعه في غرفة أخرى.',f:['distract']},
+{t:'البداية أصعب من الاستمرار.',a:'ابدأ بخمس دقائق فقط.',f:['delay','start']},
+{t:'أخطاؤك أثمن ما تملك قبل الاختبار.',a:'راجع ورقة أخطائك.',f:['examerr','lowgrades']},
+{t:'الحفظ قبل النوم يثبت أضعف ما درسته.',a:'خمس دقائق على الفراش.',f:['forget']},
+{t:'راجع على طريقة الاختبار.',a:'حل بزمن حقيقي وورقة واحدة.',f:['examerr']},
+{t:'النوم جزء من المذاكرة.',a:'الدماغ يرتب ما درسته أثناء النوم.',f:[]}];
+var LV=[['F','تأسيس'],['D','مبتدئ'],['C','متوسط'],['B','جيد'],['B+','متقدم'],['A','ممتاز']];
+var TIMES=[[30,'٣٠ دقيقة'],[60,'ساعة'],[90,'ساعة ونصف'],[120,'ساعتان'],[180,'٣ ساعات+']];
+var EXAMS=[['none',null,'var(--green)','لا يوجد اختبار قريب','تحسين مستمر'],['week',7,'var(--hl)','خلال أسبوع','استعداد سريع'],['twk',14,'#D97D2A','خلال أسبوعين','استعداد تدريجي'],['mon',30,'#3B7BB5','خلال شهر','بناء ثم استعداد'],['date',null,'var(--accent)','لدي موعد محدد','اختر التاريخ']];
+var TIC={concept:'book',practice:'pen',recall:'brain',review:'note',rest:'coffee',method:'bulb',errors:'rot'};
+var db=null,KEY='sr10',curV='v-home',RUN=null,TIPX=null;
+var STUDY_PLANS={}, ACTIVE_SUBJECT=null, PLAN_TABLE='study_plans';
+var CORE_SUBJECTS=['ARA','ENG','MAT','ISL','SCI','SOC','CHE','PHY','BIO'];
+function planSubjectsForGrade(grade){return (+grade<=8)?['ARA','ENG','MAT','ISL','SCI','SOC']:['ARA','ENG','MAT','ISL','CHE','PHY','BIO','SOC'];}
+function isPlanSubjectAllowed(subject,grade){return planSubjectsForGrade(grade).includes(subject);}
+var OB={grade:7,subject:'MAT',cur_grade:65,goal_grade:85,problems:[],time_avail:60,exam_date:null,etype:'none',name:''};
+var obStep=0,obAdv=false;
+function load(){}
+/* =========================
+   STUDY COACH PERSONALIZATION ENGINE
+   Grade + Subject + Goal + Problem + Time + Exam + Habits + Progress
+   ========================= */
+var GRADE_COACH={
+  junior:{min:7,max:9,label:'المرحلة المتوسطة',session:25,breakMin:5,focus:'بناء عادة مذاكرة بسيطة ومستمرّة',tone:'بسيطة ومشجعة',
+    priorities:['بناء عادة المذاكرة','تقليل التسويف','التركيز','فهم أساسيات المذاكرة','المراجعة القصيرة','تقسيم المهام'],
+    intro:'خلّنا نخلي المذاكرة أسهل بخطوات قصيرة وواضحة.'},
+  middle:{min:10,max:11,label:'المرحلة الثانوية',session:35,breakMin:7,focus:'رفع جودة المذاكرة وتنظيم عدة مواد',tone:'مباشرة ومنظمة',
+    priorities:['تحديد الأولويات','إدارة عدة مواد','المراجعة المنتظمة','معالجة نقاط الضعف','تقليل تراكم الدروس','تحليل الأخطاء'],
+    intro:'سنرتب وقتك حول الأولويات بدل المذاكرة العشوائية.'},
+  senior:{min:12,max:12,label:'الصف 12',session:45,breakMin:10,focus:'الكفاءة والاستعداد الأكاديمي المكثف',tone:'ناضجة ومباشرة',
+    priorities:['إدارة الوقت بكفاءة','الاستعداد للاختبارات','المراجعة طويلة المدى','معالجة نقاط الضعف بسرعة','الموازنة بين المواد','الاستمرارية'],
+    intro:'سنستخدم وقتك حول أعلى الأولويات وبحسب قرب الاختبار.'}
+};
+function gradeBand(g){g=+g||7;return g<=9?'junior':g<=11?'middle':'senior'}
+function coachProfile(){
+  var b=GRADE_COACH[gradeBand(db.grade)],d=dte(),p=prog();
+  return {grade:+db.grade||7,band:gradeBand(db.grade),subject:db.subject,goal:+db.goal_grade||85,problem:(db.problems&&db.problems[0])||'forget',problems:(db.problems||[]).slice(),time:+db.time_avail||60,examDate:db.exam_date||null,days:d,habits:db.studyHabits||{},progress:p,weakAreas:db.weakAreas||[],completedTasks:db.tasks||0,methodsDone:db.methods_done||{},profile:b};
+}
+function syncStudentProfile(){
+  if(!db)return;
+  var p=coachProfile();
+  db.studentProfile={grade:p.grade,semester:db.semester||null,subjects:[db.subject],goal:p.goal,problem:p.problem,availableTime:p.time,examDate:p.examDate,studyHabits:db.studyHabits||{},progress:p.progress,weakAreas:db.weakAreas||[],completedTasks:p.completedTasks,preferences:db.preferences||{}};
+}
+function coachProblemAdvice(p){
+  var g=p.band,d=p.days,s=p.profile,sub=SUBJ[p.subject]?SUBJ[p.subject][0]:'مادتك';
+  var map={
+    forget:{junior:'بعد كل جلسة، أغلق الدرس واكتب 3 أشياء تتذكرها. راجعها غدًا لدقيقتين بدل إعادة قراءة الدرس كاملًا.',middle:'استخدم استرجاعًا نشطًا ثم راجع النقاط التي أخطأت فيها بعد يوم و3 أيام. اربط المراجعة بمواعيد دراستك.',senior:'حوّل النسيان إلى نظام مراجعة: استرجاع قصير اليوم، مراجعة بعد يوم ثم 3 أيام، ثم مراجعة مركزة قبل الاختبار.'},
+    lowgrades:{junior:'لا تزيد ساعاتك مباشرة. خصص جزءًا من جلسة المذاكرة لتطبيق ما فهمته ثم اكتب خطأ واحدًا تعلمت منه.',middle:'راجع أين تضيع الدرجات، ثم اجعل جزءًا أكبر من وقتك للتطبيق وتحليل الأخطاء بدل القراءة الطويلة.',senior:'ركّز على مصدر فقدان الدرجات: فهم، تطبيق، وقت أو أخطاء متكررة. خصص وقتك الأكبر لأعلى فجوة تأثيرًا.'},
+    start:{junior:'لا تبدأ بجلسة طويلة. اختر مهمة واحدة صغيرة وابدأ بها 10–15 دقيقة فقط.',middle:'حوّل هدف اليوم إلى أول مهمة واضحة: موضوع واحد، مدة محددة، ثم ابدأ قبل التفكير في بقية الجدول.',senior:'حدد أولوية واحدة مرتبطة بهدفك وابدأ بها فورًا. لا تبنِ جلسة كاملة قبل تحديد ناتج واضح لها.'},
+    distract:{junior:'ضع الهاتف بعيدًا عن مكانك لمدة جلسة قصيرة، وحدد مهمة واحدة فقط.',middle:'اقفل مصادر التشتيت قبل الجلسة وحدد نتيجة واحدة تريد إنهاءها خلال الوقت المتاح.',senior:'تعامل مع التركيز كقرار بيئي: هاتف خارج الغرفة، جلسة محددة، ومهمة واحدة قابلة للقياس.'},
+    delay:{junior:'قسّم المذاكرة إلى خطوة صغيرة جدًا. ابدأ بخمس دقائق ثم قرر المهمة التالية.',middle:'قسّم المهمة الكبيرة إلى وحدات واضحة وحدد وقت البداية مسبقًا حتى لا يبقى القرار مفتوحًا.',senior:'أزل القرارات الصغيرة من يومك: حدد الأولوية والوقت والمخرج المطلوب قبل بدء الجلسة.'},
+    examerr:{junior:'تدرّب بهدوء على قراءة السؤال مرتين وتحديد المطلوب قبل الإجابة.',middle:'حل تدريبات بوقت محدد ثم سجّل سبب كل خطأ حتى تعرف هل المشكلة فهم أم تطبيق أم وقت.',senior:'حل بظروف زمنية قريبة من الاختبار، ثم صنّف الأخطاء حسب السبب وابنِ مراجعتك على الأنماط المتكررة.'},
+    nosched:{junior:'ثبّت وقتًا قصيرًا واحدًا للمذاكرة كل يوم حتى تصبح المذاكرة عادة.',middle:'ثبّت نوافذ مذاكرة للمادة الأساسية والمراجعة، وراجع جدولك أسبوعيًا.',senior:'ثبّت نوافذ واضحة للأولوية والمراجعة، واترك مساحة مرنة فقط للطوارئ أو المتأخرات.'}
+  };
+  var base=(map[p.problem]&&map[p.problem][g])||s.intro;
+  if(d!==null){
+    if(d<=3)base+=' لديك '+toAr(d)+' '+(d===1?'يوم':'أيام')+' فقط، لذلك سنركز الآن على الأولويات الأعلى أثرًا.';
+    else if(d<=7)base+=' بما أن الاختبار خلال '+toAr(d)+' أيام، سنقلل المهام الجانبية ونرفع أولوية المراجعة والتطبيق.';
+    else if(d<=14)base+=' أمامك '+toAr(d)+' يومًا، لذلك سنبني الفهم أولًا ثم نزيد المراجعة تدريجيًا.';
+  }
+  if(p.time<=30)base+=' وقتك المتاح '+toAr(p.time)+' دقيقة؛ لذلك سنختار مهمة واحدة أساسية بدل حشو الجلسة.';
+  else if(p.time>=90)base+=' لديك '+toAr(p.time)+' دقيقة؛ سنقسمها إلى جلسات بدل جلسة طويلة واحدة.';
+  if(p.progress<30)base+=' تقدمك الحالي ما زال في البداية، لذا الأولوية للاستمرارية والمهام القابلة للإنجاز.';
+  else if(p.progress>=70)base+=' تقدمك جيد؛ سنرفع جودة المهام بدل زيادة عددها بلا حاجة.';
+  return base;
+}
+function subjectCoachAdvice(p){
+  var sub=SUBJ[p.subject]?SUBJ[p.subject][0]:'المادة';
+  var map={
+    MAT:'ابدأ بفهم الفكرة والمثال، ثم حل مسائل بنفسك، وبعدها سجّل سبب كل خطأ.',
+    PHY:'افهم الفكرة والقانون والوحدات ومتى تستخدم القانون، ثم طبّق على مسائل متدرجة.',
+    CHE:'اربط المفاهيم والمعادلات ببعضها، ثم طبّق على أمثلة وحسابات قصيرة بدل الحفظ وحده.',
+    BIO:'قسّم الدرس إلى مفاهيم، ثم استرجعها واشرح العلاقات والعمليات والرسومات من ذاكرتك.',
+    ENG:'قسّم المذاكرة بين المفردات والقواعد والقراءة والكتابة، واجعل جزءًا من الجلسة تطبيقًا فعليًا.',
+    ARA:'قسّم المذاكرة بين فهم القاعدة أو النص، ثم التطبيق والكتابة والاسترجاع بدل القراءة المتكررة.',
+    ISL:'افهم المعنى أولًا، ثم قسّم المطلوب إلى أجزاء قصيرة واستخدم الاسترجاع المتكرر للحفظ والمراجعة.',
+    SOC:'اربط الأحداث والأسباب والنتائج والمفاهيم، ثم استرجعها على دفعات واختبر نفسك شفهيًا أو كتابيًا.',
+    SCI:'افهم المفهوم ثم اشرحه بكلماتك واربطه بالتجارب والرسومات والأمثلة والتطبيق.'
+  };
+  return 'في '+sub+'، '+(map[p.subject]||'ركّز على الفهم ثم الاسترجاع والتطبيق وتحليل الأخطاء.');
+}
+function coachRecommendation(){
+  var p=coachProfile(),d=p.days,sub=SUBJ[p.subject]?SUBJ[p.subject][0]:'مادتك';
+  var urgent=d!==null&&d<=7;
+  var text=coachProblemAdvice(p)+' '+subjectCoachAdvice(p);
+  if(urgent)text+=' لأن موعد الاختبار قريب، ستكون الأولوية للمفاهيم الضعيفة ثم التطبيق ثم المراجعة المركزة.';
+  return {title:p.profile.focus,text:text,profile:p};
+}
+function personalizedMethod(id){
+  var m=null;METHODS.forEach(function(x){if(x.id===id)m=x});if(!m)return null;
+  var p=coachProfile(),g=p.band,sub=SUBJ[p.subject]?SUBJ[p.subject][0]:'مادتك',x={};
+  Object.keys(m).forEach(function(k){x[k]=m[k]});
+  var overrides={
+    recall:{junior:{w:'تأكد أنك تتذكر الفكرة بدون فتح الدرس.',h:['اقرأ جزءًا صغيرًا','أغلقه واكتب 3 نقاط','قارن وعدّل','راجع غدًا'],ex:'بعد درس في '+sub+'، اكتب 3 أشياء تتذكرها قبل النظر.'},middle:{w:'استرجع المعلومات من الذاكرة ثم عالج الفجوات.',h:['اقرأ بتركيز','أغلق المصدر','اكتب ما تتذكره','حوّل الأخطاء إلى نقاط مراجعة'],ex:'بعد درس '+sub+'، اكتب أهم الأفكار ثم راجع ما نسيت.'},senior:{w:'استخدم الاسترجاع لتحديد ما تعرفه وما يحتاج مراجعة.',h:['استرجع دون نظر','صنّف الفجوات','راجع الضعيف','أعد الاسترجاع في موعد لاحق'],ex:'أنشئ قائمة قصيرة بما لم تستطع استرجاعه واربطها بموعد المراجعة التالي.'}},
+    spaced:{junior:{w:'راجع الدرس على فترات قصيرة حتى لا تنساه.',h:['راجع غدًا','ثم بعد 3 أيام','ثم بعد أسبوع','استخدم دقائق قليلة في كل مرة'],ex:'إذا درست درسًا اليوم، اجعل له مراجعة قصيرة غدًا.'},middle:{w:'وزّع المراجعة بدل تجميعها قبل الاختبار.',h:['بعد يوم','بعد 3 أيام','بعد أسبوع','قدّم الضعيف على المتقن'],ex:'أنشئ مواعيد مراجعة لـ '+sub+' بدل إعادة المادة كاملة في ليلة واحدة.'},senior:{w:'اربط المراجعة المتباعدة بموعد الاختبار ونقاط ضعفك.',h:['مراجعة أولى','مراجعة بعد عدة أيام','مراجعة مركزة قبل الاختبار','أعد الضعيف أكثر من المتقن'],ex:'إذا بقي للاختبار 10 أيام، وزّع مراجعاتك بحيث تظهر النقاط الضعيفة أكثر من مرة.'}},
+    pomodoro:{junior:{w:'جلسة قصيرة تساعدك تبدأ وتحافظ على التركيز.',h:['حدد مهمة واحدة','25 دقيقة بدون هاتف','5 دقائق راحة','كرر عند الحاجة'],ex:'25 دقيقة لفهم فكرة واحدة ثم 5 دقائق راحة.'},middle:{w:'قسّم الوقت إلى جلسات تركيز بدل الجلوس الطويل.',h:['حدد ناتج الجلسة','35 دقيقة تركيز','7 دقائق راحة','راجع ما أنجزته'],ex:'جلسة لـ '+sub+' هدفها إنهاء مفهوم محدد، ثم استراحة قصيرة.'},senior:{w:'استخدم جلسات أطول نسبيًا مع فواصل واضحة.',h:['حدد الأولوية والناتج','45 دقيقة تركيز','10 دقائق راحة','سجّل ما بقي'],ex:'45 دقيقة لأعلى نقطة ضعف ثم 10 دقائق راحة قبل الانتقال للمهمة التالية.'}},
+    practice:{junior:{w:'بعد الفهم، طبّق فورًا حتى تعرف هل فهمت فعلًا.',h:['افهم مثالًا','أعده بنفسك','حل 3–5 تطبيقات','راجع خطأك'],ex:'في '+sub+'، لا تكتفِ بقراءة المثال؛ أعده ثم حل تطبيقات قصيرة.'},middle:{w:'التطبيق هو المكان الذي تظهر فيه فجوات الفهم.',h:['حل دون نظر','صنّف الأخطاء','أعد الضعيف','راجع النتيجة'],ex:'خصص جزءًا ثابتًا من جلسة '+sub+' للحل وتحليل سبب الخطأ.'},senior:{w:'اجعل التطبيق موجّهًا بنقاط ضعفك وبظروف زمنية عند اقتراب الاختبار.',h:['اختر أسئلة تمثل الضعف','حل بزمن عند الحاجة','صنّف الأخطاء','أعد النوع المتكرر'],ex:'بدل حل عدد عشوائي، اختر تطبيقات تستهدف أكثر نقطة تفقدك درجات.'}},
+    errors:{junior:{w:'الخطأ فرصة تعرف منها ماذا تحتاج أن تتعلم.',h:['اكتب الخطأ','اكتب السبب بكلمات بسيطة','صححه','راجعه لاحقًا'],ex:'اكتب: ماذا أخطأت؟ ولماذا؟ وما الخطوة الصحيحة؟'},middle:{w:'حوّل الأخطاء إلى بيانات تساعدك تختار ما تراجع.',h:['سجّل الخطأ','حدّد سببه','صحح الطريقة','راجع النمط المتكرر'],ex:'إذا تكرر نفس الخطأ في '+sub+'، اجعله أولوية في الجلسة التالية.'},senior:{w:'حلّل الأخطاء حسب السبب حتى لا تعيد نفس المشكلة.',h:['سجّل الخطأ','صنّفه فهم/تطبيق/وقت','حدّد التدخل','اختبر نفسك مجددًا'],ex:'إذا تكررت أخطاء نوع واحد، خصص له جلسة مركزة بدل مراجعة كل المادة.'}}
+  };
+  var o=overrides[id]&&overrides[id][g];if(o)Object.keys(o).forEach(function(k){x[k]=o[k]});
+  if(id==='math'||id==='physics'||id==='chem'||id==='bio'||id==='theory'){
+    var byGrade={junior:{wh:'جلسات قصيرة ومتكررة مناسبة لبناء الفهم والعادة.',prefix:'ابدأ بفكرة واحدة فقط.'},middle:{wh:'عندما تحتاج إلى رفع جودة مذاكرتك للمادة.',prefix:'حدد النقطة التي تحتاج تحسينًا ثم طبّق.'},senior:{wh:'عند التخطيط للمادة حول نقاط ضعفك وموعد الاختبار.',prefix:'ابدأ بأعلى نقطة تأثيرًا على هدفك.'}};
+    var q=byGrade[g];x.wh=q.wh;x.w=q.prefix+' '+x.w;
+  }
+  return x;
+}
+function personalizedTips(){
+  var p=coachProfile(),out=[];
+  var add=function(t,a,te,ae){out.push({t:t,a:a,te:te||t,ae:ae||a})};
+  var subjectTips={
+    MAT:[['حل بنفسك قبل النظر للحل','Solve it yourself before looking at the solution'],['اكتب سبب كل خطأ في خطوة واحدة','Write the reason for each mistake in one sentence'],['ابدأ بالمسائل التي تمثل نقطة ضعفك','Start with problems that target your weak area']],
+    ENG:[['قسّم الجلسة بين مفردات وقواعد وتطبيق','Split the session between vocabulary, grammar, and practice'],['اكتب جملًا جديدة بالكلمات التي تعلمتها','Write new sentences using the words you learned'],['اقرأ فقرة قصيرة ثم لخّصها بكلماتك','Read a short paragraph and summarize it in your own words']],
+    ARA:[['طبّق القاعدة بدل إعادة قراءتها فقط','Apply the rule instead of only rereading it'],['لخّص النص أو الفكرة بكلماتك','Summarize the text or idea in your own words'],['راجع أخطاء الكتابة والقواعد المتكررة','Review your repeated writing and grammar mistakes']],
+    ISL:[['قسّم الحفظ إلى مقاطع قصيرة','Break memorization into short sections'],['استرجع من الذاكرة قبل فتح المصدر','Recall from memory before opening the source'],['اربط المعنى بالنقاط التي تحتاج حفظها','Connect the meaning to the points you need to memorize']],
+    SCI:[['اشرح المفهوم بكلماتك دون نظر','Explain the concept in your own words without looking'],['استخدم الرسومات والمقارنات لفهم العلاقات','Use diagrams and comparisons to understand relationships'],['اربط كل مفهوم بمثال أو تطبيق','Connect each concept to an example or application']],
+    CHE:[['اربط المعادلة بالمفهوم الذي تشرحه','Connect the equation to the concept it represents'],['تدرّب على موازنة المعادلات والخطوات الحسابية','Practice balancing equations and calculation steps'],['سجّل الأخطاء المتكررة في ورقة واحدة','Record repeated mistakes on one sheet']],
+    PHY:[['اكتب المعطيات والمطلوب قبل اختيار القانون','Write the givens and what is required before choosing the formula'],['تأكد من الوحدات قبل الحساب','Check the units before calculating'],['حل مسألة ثم راجع لماذا اخترت القانون','Solve a problem, then review why you chose the formula']],
+    BIO:[['قسّم العمليات إلى خطوات مترابطة','Break processes into connected steps'],['ارسم أو سمِّ الأجزاء من الذاكرة','Draw or name the parts from memory'],['قارن بين المفاهيم المتشابهة حتى لا تختلط','Compare similar concepts so they do not get mixed up']],
+    SOC:[['اربط السبب بالنتيجة بدل الحفظ المنفصل','Connect cause and effect instead of memorizing separately'],['استخدم خطًا زمنيًا عند الحاجة','Use a timeline when helpful'],['استرجع الشخصيات والمفاهيم من الذاكرة ثم صححها','Recall people and concepts from memory, then correct them']]
+  };
+  var arr=subjectTips[p.subject]||[];
+  var subName=SUBJ[p.subject]?SUBJ[p.subject][0]:'مادتك';
+  var subEn=planLabel(p.subject,true);
+  if(arr.length) add('نصيحة خاصة بـ '+subName,arr[0][0],'Tip for '+subEn,arr[0][1]);
+  if(arr.length>1)add('طريقة ثانية للمادة',arr[1][0],'Another tip for '+subEn,arr[1][1]);
+  var problemAr={forget:'بعد كل جلسة، أغلق الدرس واكتب 3 أشياء تتذكرها. راجعها غدًا لدقيقتين بدل إعادة قراءة الدرس كاملًا.',lowgrades:'راجع أين تضيع الدرجات، ثم اجعل جزءًا أكبر من وقتك للتطبيق وتحليل الأخطاء بدل القراءة الطويلة.',start:'حوّل هدف اليوم إلى أول مهمة واضحة: موضوع واحد، مدة محددة، ثم ابدأ فورًا.',distract:'اقفل مصادر التشتيت قبل الجلسة وحدد نتيجة واحدة تريد إنهاءها خلال الوقت المتاح.',delay:'قسّم المهمة الكبيرة إلى وحدات واضحة وحدد وقت البداية مسبقًا حتى لا يبقى القرار مفتوحًا.',examerr:'حل تدريبات بوقت محدد ثم سجّل سبب كل خطأ حتى تعرف هل المشكلة فهم أم تطبيق أم وقت.',nosched:'ثبّت نوافذ مذاكرة للمادة الأساسية والمراجعة، وراجع جدولك بانتظام.'};
+  var problemEn={forget:'After each session, close the lesson and write three things you remember. Review them tomorrow instead of rereading the whole lesson.',lowgrades:'Identify where you lose marks, then spend more time on practice and error analysis instead of long reading.',start:'Turn today’s goal into one clear first task: one topic, one time limit, then start immediately.',distract:'Remove distractions before the session and define one result you want to finish in the available time.',delay:'Break the large task into clear units and set a start time so the decision is not left open.',examerr:'Practice with a time limit and record the reason for each mistake so you know whether the issue is understanding, application, or time.',nosched:'Set fixed study windows for the main subject and review, then check your schedule regularly.'};
+  var pk=p.problem||'forget';
+  add(pk==='forget'?'عالج النسيان':pk==='lowgrades'?'ارفع جودة المذاكرة':pk==='start'||pk==='delay'?'ابدأ بدون تأجيل':pk==='distract'?'قلل التشتيت':'توصية حسب حالتك',problemAr[pk]||coachProblemAdvice(p),pk==='forget'?'Address forgetting':pk==='lowgrades'?'Improve study quality':pk==='start'||pk==='delay'?'Start without delaying':pk==='distract'?'Reduce distractions':'Recommendation for your situation',problemEn[pk]||'Use the advice based on your current study situation.');
+  if(p.days!==null){
+    if(p.days<=1)add('اختبارك غدًا','لديك يوم واحد فقط: ركّز على أهم نقاط الضعف، طبّق عليها، ثم اعمل استرجاعًا خفيفًا في النهاية.','Your exam is tomorrow','You have only one day: focus on the most important weak areas, practice them, then finish with light recall.');
+    else if(p.days<=3)add('الاختبار قريب جدًا','ركّز على أعلى نقاط الضعف ثم التطبيق، واترك آخر جزء من اليوم للمراجعة الخفيفة.','The exam is very close','Focus on the most important weak areas and practice, then use the final part of the day for light review.');
+    else if(p.days<=7)add('الاختبار خلال أسبوع','وزّع الأيام بين الفهم والتطبيق والمراجعة بدل ترك كل شيء لآخر يوم.','Exam within a week','Spread the days across understanding, practice, and review instead of leaving everything to the last day.');
+    else if(p.days<=14)add('لديك وقت لبناء مستواك','استخدم الأيام الأولى للفهم والضعف، ثم زد المراجعة كلما اقترب الاختبار.','You have time to build your level','Use the first days for understanding and weak areas, then increase review as the exam gets closer.');
+  }
+  if(p.time<=30)add('وقتك محدود','لديك '+toAr(p.time)+' دقيقة؛ اختر مهمة أساسية واحدة وأنهِها بدل الانتقال بين عدة أشياء.','Your time is limited','You have '+p.time+' minutes; choose one main task and finish it instead of switching between several things.');
+  else if(p.time>=90)add('لديك وقت أطول','قسّم '+toAr(p.time)+' دقيقة إلى جلسات وفواصل حتى تحافظ على التركيز.','You have more time','Split your '+p.time+' minutes into sessions and breaks to maintain focus.');
+  return out.slice(0,6);
+}
+function gradePlanConfig(){
+  var p=coachProfile(),base=p.profile;
+  var session=base.session,br=base.breakMin;
+  if(p.days!==null&&p.days<=3){session=Math.max(20,session-5);br=Math.max(5,br-2)}
+  if(p.time<=30)session=Math.min(session,20);
+  return {session:session,breakMin:br,focus:base.focus};
+}
+function dte(){if(!db||!db.exam_date)return null;var parts=String(db.exam_date).split('-').map(Number);if(parts.length!==3||!parts[0])return null;var e=new Date(parts[0],parts[1]-1,parts[2]);var n=new Date();var t=new Date(n.getFullYear(),n.getMonth(),n.getDate());return Math.max(0,Math.round((e-t)/86400000))}
+function effort(){return Math.max(120,(db.goal_grade-db.cur_grade)*30)}
+function prog(){return clamp(Math.round((db.minutes||0)/effort()*100),0,100)}
+function blocks(p){var h='';for(var i=0;i<10;i++)h+='<span class="pblock'+(i<Math.round(p/10)?' on':'')+'"></span>';return h}
+function streak(){if(!db.days_done.length)return 0;var s={};db.days_done.forEach(function(d){s[d]=1});var d=new Date(),c=0,k=todayKey();if(!s[k]){d.setDate(d.getDate()-1);k=d.toISOString().slice(0,10);if(!s[k])return 0}while(s[k]){c++;d.setDate(d.getDate()-1);k=d.toISOString().slice(0,10)}return c}
+function genToday(){
+  var p=coachProfile(),cfg=gradePlanConfig(),a=p.time,x=p.days,ts=[],sub=SUBJ[p.subject]?SUBJ[p.subject][0]:'مادتك';
+  var weak=(p.problems&&p.problems.length)?p.problems[0]:'forget';
+  var session=cfg.session,br=cfg.breakMin;
+  var urgent=x!==null&&x<=7;
+  if(urgent){
+    if(x<=3){
+      ts.push({k:'review',m:Math.min(session,20),t:'مراجعة أعلى نقطة ضعف',d:'ابدأ بأكثر جزء تحتاجه في '+sub});
+      ts.push({k:'practice',m:Math.min(20,Math.max(10,session-5)),t:'تطبيق مركز',d:'طبّق على نفس النقطة ثم صنّف أخطاءك'});
+    }else if(x<=7){
+      ts.push({k:'concept',m:session,t:'فهم نقطة مهمة',d:'اختر مفهومًا مرتبطًا بهدفك في '+sub});
+      ts.push({k:'rest',m:br,t:'استراحة',d:''});
+      ts.push({k:'practice',m:Math.min(session,25),t:'تطبيق ومراجعة أخطاء',d:'طبّق ثم راجع سبب الأخطاء'});
+    }
+    if(a>=60)ts.push({k:'recall',m:Math.min(10,Math.max(5,session-15)),t:'استرجاع ختامي',d:'اكتب أهم ما تتذكره دون نظر'});
+  }else{
+    var mainTitle=weak==='forget'?'استرجاع ما تعلمته':weak==='lowgrades'?'تطبيق وتحليل الأخطاء':weak==='start'||weak==='delay'?'جلسة بداية سهلة':'جلسة مركزة في '+sub;
+    var mainDesc=weak==='forget'?'استرجع من ذاكرتك ثم صحح الفجوات':weak==='lowgrades'?'حل ثم حدّد سبب الخطأ':weak==='start'||weak==='delay'?'مهمة واحدة فقط حتى تنهيها':'افهم ثم طبّق على جزء محدد';
+    ts.push({k:'concept',m:session,t:mainTitle,d:mainDesc});
+    if(a>=session+br+10)ts.push({k:'rest',m:br,t:'استراحة',d:'ابتعد عن الشاشة قليلًا'});
+    if(a>=session+br+20)ts.push({k:'practice',m:Math.min(25,session),t:'تطبيق '+sub,d:'طبّق على ما درست اليوم'});
+    if(a>=session+br+35||p.progress>40)ts.push({k:'recall',m:10,t:'استرجاع ختامي',d:'اكتب أهم النقاط من ذاكرتك'});
+  }
+  if(!p.methodsDone[p.profile && p.profile.band==='junior'?'pomodoro':'recall']&&a>=60){
+    var wanted=p.profile.band==='junior'?'pomodoro':p.profile.band==='middle'?'errors':'spaced',fm=personalizedMethod(wanted);
+    if(fm)ts.push({k:'method',mid:wanted,m:10,t:'تعلّم: '+fm.n,d:'طريقة مناسبة للصف '+toAr(p.grade)});
+  }
+  var tot=0,kept=[];ts.forEach(function(t){if(tot+t.m<=a+5){kept.push(t);tot+=t.m}});
+  if(!kept.length)kept=[{k:'review',m:Math.min(10,a),t:'مراجعة قصيرة',d:'مهمة واحدة تناسب وقتك اليوم'}];
+  db.today={day:db.day_idx,done:{},tasks:kept};syncStudentProfile();save();
+}
+function tState(){if(!db.today||db.today.day!==db.day_idx)genToday();return db.today}
+function quick(m){if(m<=10)return[{k:'review',m:m,t:'مراجعة سريعة',d:''}];
+  if(m<=20)return[{k:'concept',m:m-5,t:'مفهوم واحد',d:''},{k:'recall',m:5,t:'استرجاع',d:''}];
+  if(m<=30)return[{k:'concept',m:20,t:'مفهوم',d:''},{k:'rest',m:5,t:'استراحة',d:''},{k:'recall',m:5,t:'استرجاع',d:''}];
+  if(m<=45)return[{k:'concept',m:25,t:'مفهوم',d:''},{k:'rest',m:5,t:'استراحة',d:''},{k:'practice',m:15,t:'تطبيق',d:''}];
+  return[{k:'concept',m:25,t:'مفهوم',d:''},{k:'rest',m:5,t:'استراحة',d:''},{k:'practice',m:25,t:'تطبيق',d:''},{k:'recall',m:5,t:'مراجعة',d:''}]}
+var AUTH_MODE='login';
+function showAuth(mode){AUTH_MODE=mode||'login';rAuth();go('v-auth')}
+function rAuth(){
+  var en=LANG==='en', reg=AUTH_MODE==='register';
+  var h='';
+  h+='<div class="auth-brand"><span class="brand-mark">'+ic('target')+'</span><span>Study<b>Rescue</b></span></div>';
+  h+='<h1 class="auth-title">'+(reg?(en?'Create your account':'إنشاء حسابك'):(en?'Welcome back':'مرحبًا بعودتك'))+'</h1>';
+  h+='<p class="auth-sub">'+(reg?(en?'Create a secure account and keep your plan synced across devices.':'أنشئ حسابًا آمنًا واحفظ خطتك وتقدمك لتتمكن من الوصول إليهما من أجهزتك.'):(en?'Log in to continue to your Study Rescue plan.':'سجّل الدخول للمتابعة إلى خطتك في Study Rescue.'))+'</p>';
+  if(reg) h+='<div class="auth-field"><label>'+ (en?'Name':'الاسم') +'</label><input id="authName" type="text" autocomplete="name" placeholder="'+(en?'Your name':'اسمك')+'"></div>';
+  h+='<div class="auth-field"><label>'+ (en?'Email':'البريد الإلكتروني') +'</label><input id="authEmail" type="email" autocomplete="email" placeholder="'+(en?'name@example.com':'name@example.com')+'"></div>';
+  h+='<div class="auth-field"><label>'+ (en?'Password':'كلمة المرور') +'</label><input id="authPass" type="password" autocomplete="'+(reg?'new-password':'current-password')+'" placeholder="'+(en?'Your password':'كلمة المرور')+'"></div>';
+  if(!reg) h+='<button class="auth-forgot" data-act="forgot">'+(en?'Forgot password?':'نسيت كلمة المرور؟')+'</button>';
+  h+='<button class="btn btn-primary btn-lg auth-submit" data-act="authSubmit">'+(reg?(en?'Create account':'إنشاء الحساب'):(en?'Log in':'تسجيل الدخول'))+'</button>';
+  h+='<div class="auth-switch">'+(reg?(en?'Already have an account?':'لديك حساب بالفعل؟'):(en?'Don’t have an account?':'ليس لديك حساب؟'))+' <button data-act="authmode" data-val="'+(reg?'login':'register')+'">'+(reg?(en?'Log in':'تسجيل الدخول'):(en?'Create one':'إنشاء حساب'))+'</button></div>';
+  h+='<p class="auth-note">'+(en?'Secure authentication is handled by Supabase. Your password is never stored by this page.':'تتم المصادقة الآمنة عبر Supabase، ولا تحفظ هذه الصفحة كلمة مرورك.')+'</p>';
+  $('#authBox').innerHTML=h;
+}
+async function authSubmit(){
+  var en=LANG==='en', email=(document.getElementById('authEmail')||{}).value.trim().toLowerCase(), pass=(document.getElementById('authPass')||{}).value, name=((document.getElementById('authName')||{}).value||'').trim();
+  if(!email||!pass||(AUTH_MODE==='register'&&!name)){toast(en?'Please complete all fields':'أكمل جميع البيانات','x');return}
+  if(!requireBackend())return;
+  try{
+    var res;
+    if(AUTH_MODE==='register'){
+      res=await sb.auth.signUp({email:email,password:pass,options:{data:{name:name}}});
+      if(res.error)throw res.error;
+      if(!res.data.session){toast(en?'Account created. Check your email to confirm it.':'تم إنشاء الحساب. افحص بريدك لتأكيد الحساب.','check');return}
+      SB_USER=res.data.user; db=null; await remoteLoadUser();
+      if(db){syncStudentProfile();renderDash()} else {OB.name=name;start()}
+      toast(en?'Account created. Let’s build your plan.':'تم إنشاء الحساب. لنبدأ ببناء خطتك.','check');
+    } else {
+      res=await sb.auth.signInWithPassword({email:email,password:pass});
+      if(res.error)throw res.error;
+      SB_USER=res.data.user; await remoteLoadUser();
+      if(db){syncStudentProfile();renderDash();toast(en?'Welcome back!':'مرحبًا بعودتك!','check')}
+      else {OB.name=(SB_USER.user_metadata&&SB_USER.user_metadata.name)||'';start();toast(en?'Welcome! Let’s build your plan.':'مرحبًا! لنبدأ ببناء خطتك.','check')}
+    }
+  }catch(err){toast(err&&err.message?err.message:(en?'Authentication failed':'فشل تسجيل الدخول'),'x')}
+}
+async function remoteLoadUser(){
+  if(!backendConfigured()||!SB_USER)return;
+  try{
+    var r=await sb.from('student_data').select('data').eq('user_id',SB_USER.id).maybeSingle();
+    if(r.error)throw r.error;
+    var saved=(r.data&&r.data.data&&r.data.data.v===10)?r.data.data:null;
+    db=saved;
+    await remoteLoadPlans();
+    if(!Object.keys(STUDY_PLANS).length && saved && saved.subject){
+      await remoteSavePlan(saved.subject,saved);
+      STUDY_PLANS[saved.subject]=saved;
+    }
+    ACTIVE_SUBJECT=(saved&&saved.currentSubject&&STUDY_PLANS[saved.currentSubject])?saved.currentSubject:(saved&&saved.subject&&STUDY_PLANS[saved.subject])?saved.subject:Object.keys(STUDY_PLANS)[0]||null;
+    if(ACTIVE_SUBJECT&&STUDY_PLANS[ACTIVE_SUBJECT]) db=STUDY_PLANS[ACTIVE_SUBJECT];
+    if(db)syncStudentProfile();
+  }catch(e){console.error(e);toast(LANG==='en'?'Could not load your saved data.':'تعذر تحميل بياناتك المحفوظة.','x')}
+}
+async function remoteLoadPlans(){
+  STUDY_PLANS={};
+  if(!backendConfigured()||!SB_USER)return;
+  try{
+    var r=await sb.from(PLAN_TABLE).select('subject_id,data').eq('user_id',SB_USER.id);
+    if(r.error)throw r.error;
+    (r.data||[]).forEach(function(row){if(row.subject_id&&row.data)STUDY_PLANS[row.subject_id]=row.data});
+  }catch(e){console.error(e);toast(LANG==='en'?'Could not load your subject plans.':'تعذر تحميل خطط المواد.','x')}
+}
+async function remoteSavePlan(subject,data){
+  if(!backendConfigured()||!SB_USER||!subject||!data)return;
+  var r=await sb.from(PLAN_TABLE).upsert({user_id:SB_USER.id,subject_id:subject,data:data,updated_at:new Date().toISOString()},{onConflict:'user_id,subject_id'});
+  if(r.error)throw r.error;
+}
+async function remoteSaveProfile(){
+  if(!backendConfigured()||!SB_USER||!db)return;
+  var profile={v:10,name:db.name||'طالبنا',grade:db.grade,studentProfile:db.studentProfile||null,currentSubject:ACTIVE_SUBJECT||db.subject||null};
+  var r=await sb.from('student_data').upsert({user_id:SB_USER.id,data:profile,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(r.error)throw r.error;
+}
+async function remoteSave(){
+  if(!backendConfigured()||!SB_USER||!db)return;
+  try{
+    if(ACTIVE_SUBJECT){STUDY_PLANS[ACTIVE_SUBJECT]=db;await remoteSavePlan(ACTIVE_SUBJECT,db)}
+    await remoteSaveProfile();
+  }catch(e){console.error(e);toast(LANG==='en'?'Could not sync your data.':'تعذر مزامنة بياناتك.','x')}
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){} clearTimeout(REMOTE_SAVE_TIMER);REMOTE_SAVE_TIMER=setTimeout(remoteSave,350)}
+async function switchPlan(subject){
+  if(!SB_USER||!isPlanSubjectAllowed(subject, db&&db.grade||OB.grade))return;
+  if(ACTIVE_SUBJECT&&db){STUDY_PLANS[ACTIVE_SUBJECT]=db;try{await remoteSavePlan(ACTIVE_SUBJECT,db)}catch(e){console.error(e)}}
+  ACTIVE_SUBJECT=subject;
+  if(STUDY_PLANS[subject]){db=STUDY_PLANS[subject];syncStudentProfile();try{await remoteSaveProfile()}catch(e){}}
+  else {db=null}
+  renderDash();
+}
+function startNewPlan(subject){
+  if(!isPlanSubjectAllowed(subject, db&&db.grade||OB.grade))return;
+  if(STUDY_PLANS[subject]){switchPlan(subject);return}
+  var base=db||STUDY_PLANS[ACTIVE_SUBJECT]||{};
+  OB={grade:base.grade||7,subject:subject,cur_grade:base.cur_grade||65,goal_grade:base.goal_grade||85,problems:(base.problems||[]).slice(),time_avail:base.time_avail||60,exam_date:null,etype:'none',name:base.name||''};
+  obStep=1;obAdv=false;OB.lockSubject=true;
+  rOb();go('v-ob');
+}
+function getPlan(subject){return STUDY_PLANS[subject]||null}
+function planProgress(pl){if(!pl)return 0;var mins=+pl.minutes||0,need=Math.max(60,(+pl.time_avail||60)*5);return clamp(Math.round(mins/need*100),0,100)}
+function planLabel(subject,en){var x=SUBJ[subject];return x?(en?({ARA:'Arabic',ENG:'English',MAT:'Mathematics',ISL:'Islamic Education',SCI:'Science',SOC:'Social Studies',CHE:'Chemistry',PHY:'Physics',BIO:'Biology'}[subject]||x[0]):x[0]):subject}
+
+async function logout(){try{if(backendConfigured())await sb.auth.signOut()}catch(e){} SB_USER=null;db=null;STUDY_PLANS={};ACTIVE_SUBJECT=null;try{localStorage.removeItem(KEY)}catch(e){} showAuth('login');toast(LANG==='en'?'You have been logged out.':'تم تسجيل الخروج.','check')}
+async function forgotPassword(){
+  var en=LANG==='en', email=(document.getElementById('authEmail')||{}).value.trim().toLowerCase();
+  if(!email){toast(en?'Enter your email first.':'أدخل بريدك الإلكتروني أولًا.','x');return}
+  if(!requireBackend())return;
+  try{var r=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.href.split('#')[0]});if(r.error)throw r.error;toast(en?'Password reset email sent.':'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.','check')}catch(e){toast(e.message||'Error','x')}
+}
+
+function go(v){
+  var protectedViews=['v-ob','v-dash','v-today','v-start','v-task','v-planner','v-routine','v-methods','v-method','v-tips','v-prog','v-goal'];
+  if(protectedViews.indexOf(v)>=0 && !SB_USER){showAuth('login');return}
+  document.querySelectorAll('.view').forEach(function(x){x.classList.remove('on')});document.getElementById(v).classList.add('on');curV=v;window.scrollTo(0,0);navTop();setTimeout(function(){applyLang()},0)
+}
+function navTop(){var n=document.getElementById('navActs');
+  var langBtn='<button class="btn btn-sm" data-act="lang">'+(LANG==='ar'?'English':'العربية')+'</button>';
+  if(db){n.innerHTML='<span class="lvl-mini">'+toAr(db.cur_grade)+' '+(LANG==='ar'?'←':'→')+' '+toAr(db.goal_grade)+'</span><button class="btn btn-sm" data-act="page" data-val="dash">'+(LANG==='ar'?'لوحتي':'My Dashboard')+'</button><button class="btn btn-sm" data-act="logout">'+(LANG==='ar'?'تسجيل الخروج':'Log out')+'</button>'+langBtn}
+  else{n.innerHTML='<button class="btn btn-sm" data-act="auth" data-val="login">'+(LANG==='ar'?'تسجيل الدخول':'Log in')+'</button><button class="btn btn-primary btn-sm" data-act="start">'+(LANG==='ar'?'ابدأ الآن':'Get Started')+'</button>'+langBtn}}
+var GB=[{m:50,n:'ضعيف',c:'var(--red)',b:'var(--red-soft)',s:'كل المتفوقين بدأوا من هنا.'},{m:65,n:'مقبول',c:'var(--accent)',b:'var(--red-soft)',s:'الآن نحوّل الفهم إلى درجات.'},{m:80,n:'جيد',c:'var(--amber)',b:'var(--amber-soft)',s:'مستواك صاعد.'},{m:90,n:'جيد جدًا',c:'#3D7A4F',b:'var(--green-soft)',s:'قريب من القمة.'},{m:101,n:'ممتاز',c:'var(--green)',b:'var(--green-soft)',s:'حافظ على الإيقاع.'}];
+var lvCur=42;
+function updJ(v){var b=null;for(var i=0;i<GB.length;i++){if(v<GB[i].m){b=GB[i];break}}
+  var c=document.getElementById('lvChip');c.textContent=b.n;c.style.cssText='background:'+b.b+';color:'+b.c+';border-color:'+b.c;
+  var f=document.getElementById('lvFill');f.style.width=v+'%';f.style.background=b.c;document.getElementById('lvSent').textContent=b.s}
+function initSlider(){var sl=document.getElementById('lv');if(!sl)return;var r=null;
+  function tk(){var t=+sl.value;lvCur+=(t-lvCur)*.3;if(Math.abs(t-lvCur)<.6)lvCur=t;document.getElementById('lvN').textContent=toAr(Math.round(lvCur))+'%';if(lvCur!==t)r=requestAnimationFrame(tk)}
+  sl.addEventListener('input',function(){updJ(+sl.value);if(r)cancelAnimationFrame(r);r=requestAnimationFrame(tk)});updJ(42)}
+function home(){
+  var hs=['MAT','PHY','CHE','BIO','ARA','ENG','ISL','SOC'];
+  var h='<div class="hero"><div class="wrap hero-grid"><div>'
+  +'<span class="kicker">مدربك الدراسي الذكي · سلطنة عُمان · الصفوف ٧-١٢</span>'
+  +'<h1>حوّل ضعفك الدراسي إلى <span class="hl">خطة واضحة</span>.</h1>'
+  +'<p class="lede">خطتك الدراسية الشخصية، نصائحك، جدولك ومهامك اليومية — مبنية على حالتك الدراسية.</p>'
+  +'<div class="hero-cta"><button class="btn btn-primary btn-lg" data-act="start">ابدأ الآن '+ic('arrl')+'</button><button class="btn btn-lg" data-act="how">كيف يعمل؟</button></div>'
+  +'<div class="hero-note">'+ic('lock')+' بياناتك الدراسية تُستخدم لبناء خطة تناسب صفك ووقتك وهدفك</div></div><div>'
+  +'<div class="fchips"><span class="fchip">'+ic('bot')+' Study Coach</span><span class="fchip">'+ic('cal')+' ماذا أدرس اليوم؟</span><span class="fchip">'+ic('brain')+' طرق مذاكرة</span></div>'
+  +'<div class="card jcard"><span class="kicker">جرّب بنفسك</span><h3>اسحب المؤشر وشاهد رحلتك</h3>'
+  +'<div class="jrow"><div class="jnum" id="lvN">42%</div><span class="jchip" id="lvChip">مقبول</span></div>'
+  +'<div class="jbar"><div class="jfill" id="lvFill"></div></div>'
+  +'<input type="range" id="lv" min="35" max="97" value="42"><p class="jsent" id="lvSent"></p></div></div></div></div>';
+  var st=[['حدد هدفك','أخبر المدرب بصفك ودرجتك وهدفك.'],['افهم مشكلتك','نشخص السبب ونعطيك خطوات عملية.'],['نظم وقتك','جدول ومهام يوم باليوم.'],['تابع تحسنك','يتذكر مدربك كل شيء ويعدل الخطة.']];
+  h+='<section class="sec" id="how"><div class="wrap"><div class="sec-head"><span class="kicker">كيف يعمل؟</span><h2>مدرب يعرفك</h2><p class="muted">مدرب يساعدك على كيف وماذا ومتى تذاكر.</p></div><div class="steps">'
+  +st.map(function(s,i){return '<div class="step"><span class="step-n">'+toAr(i+1)+'</span><div><h3>'+s[0]+'</h3><p>'+s[1]+'</p></div></div>'}).join('')+'</div></div></section>';
+  h+='<section class="sec" style="padding-top:10px"><div class="wrap"><div class="sec-head"><span class="kicker">المواد</span><h2>مواد الصفوف 7-12</h2></div><div class="grid2">'
+  +hs.map(function(x){return '<button class="subj card" data-act="start"><span class="sic">'+ic(SUBJ[x][1])+'</span><span><b>'+SUBJ[x][0]+'</b></span></button>'}).join('')+'</div></div></section>';
+  h+='<section class="band"><div class="wrap"><h2>ضعفك الحالي ليس حكمًا نهائيًا — <span>إنه نقطة انطلاق.</span></h2><p>اضغط ابدأ الآن واحصل على خطتك خلال دقائق.</p><button class="btn btn-lg" data-act="start">ابدأ الآن '+ic('arrl')+'</button></div></section>';
+  document.getElementById('homeBox').innerHTML=h;initSlider();
+}
+var OBS=[['grade','الصف','في أي صف تدرس؟'],['subject','المادة','ما المادة التي تريد رفع درجتك فيها؟'],['cur_grade','درجتي','ما درجتك التقريبية؟'],['goal_grade','هدفي','ما الدرجة التي تريد؟'],['problems','مشكلتي','ما المشكلات التي تواجهك؟'],['time_avail','وقتي','كم وقتًا يوميًا؟'],['exam_date','الاختبار','متى اختبارك القادم؟'],['name','اسمك','كيف نناديك؟']];
+function rOb(){
+  var T=OBS.length;
+  var h='<div class="wiz-bar"><button class="btn btn-sm" data-act="obback">'+ic('arrr')+'</button><span class="wcount">'+toAr(obStep+1)+' من '+toAr(T)+'</span></div>'
+  +'<div class="stepper"><div class="sn-track"></div><div class="sn-prog" style="width:'+(obStep/T*88)+'%"></div>';
+  for(var i=0;i<T;i++)h+='<button class="step-node'+(i<obStep?' done':'')+(i===obStep?' now':'')+'" data-act="obgo" data-val="'+i+'"'+(i<obStep?'':' disabled')+'><span class="sn-dot">'+(i<obStep?ic('check'):toAr(i+1))+'</span><span class="sn-lab">'+OBS[i][1]+'</span></button>';
+  h+='</div><div class="wiz-head"><h1>خلينا نبني خطتك</h1><p>جاوب على أسئلة بسيطة — سيبني Study Coach خطتك.</p></div><div id="obBody"></div>';
+  document.getElementById('obWrap').innerHTML=h;
+  var b=document.getElementById('obBody'),k=OBS[obStep][0];
+  var q='<div class="wiz-q"><h2>'+OBS[obStep][2]+'</h2></div>';
+  if(OB.lockSubject)q='<div class="wiz-q"><h2>المادة</h2><p class="muted">سننشئ خطة مستقلة لهذه المادة.</p></div>';
+  if(k==='grade'){
+    q+='<div class="grid2">'+[7,8,9,10,11,12].map(function(g){return '<button class="opt card g-opt" data-act="obopt" data-val="'+g+'">الصف '+toAr(g)+'<span class="opt-check">'+ic('check')+'</span></button>'}).join('')+'</div>';
+  }else if(k==='subject'){
+    if(OB.lockSubject){
+      q+='<div class="card dsec"><div style="display:flex;align-items:center;gap:12px"><span class="sic">'+ic(SUBJ[OB.subject][1])+'</span><div><b>'+SUBJ[OB.subject][0]+'</b><span class="muted small">خطة مستقلة</span></div></div></div><div class="wiz-foot"><button class="btn btn-primary" data-act="obnext">التالي</button></div>';
+    }else{
+      q+='<div class="grid2">'+planSubjectsForGrade(OB.grade).map(function(c){return '<button class="opt card" data-act="obopt" data-val="'+c+'"><span class="oic">'+ic(SUBJ[c][1])+'</span><span><b>'+SUBJ[c][0]+'</b></span><span class="opt-check">'+ic('check')+'</span></button>'}).join('')+'</div>';
+    }
+  }else if(k==='cur_grade'||k==='goal_grade'){
+    var cur=k==='cur_grade',val=cur?OB.cur_grade:OB.goal_grade,mn=cur?30:OB.cur_grade+5;
+    q+='<div class="card jcard"><div class="jrow"><div class="jnum" id="ggN">'+toAr(val)+'</div><span class="jchip" id="ggC"></span></div>'
+    +'<div class="jbar"><div class="jfill" id="ggF"></div></div><input type="range" id="ggR" min="'+mn+'" max="100" value="'+val+'">'
+    +'<p class="jsent" id="ggS"></p></div><div class="wiz-foot"><span></span><button class="btn btn-primary" data-act="obnext">التالي</button></div>';
+  }else if(k==='problems'){
+    q+='<div class="grid2" style="grid-template-columns:1fr">'+PROBLEMS.map(function(p){return '<button class="opt card" data-act="obp" data-val="'+p.id+'"><span><b>'+p.lab+'</b><span>'+p.sub+'</span></span><span class="mck">'+ic('check')+'</span></button>'}).join('')+'</div>'
+    +'<div class="wiz-foot"><button class="btn btn-primary" data-act="obnext">التالي</button></div>';
+  }else if(k==='time_avail'){
+    q+='<div class="grid2">'+TIMES.map(function(t){return '<button class="opt card g-opt" data-act="obopt" data-val="'+t[0]+'">'+t[1]+' يوميًا<span class="opt-check">'+ic('check')+'</span></button>'}).join('')+'</div>';
+  }else if(k==='exam_date'){
+    q+='<div class="grid2" style="grid-template-columns:1fr">'+EXAMS.map(function(x){return '<button class="opt card" data-act="obopt" data-val="'+x[0]+'"><span class="dot" style="background:'+x[2]+'"></span><span><b>'+x[3]+'</b><span>'+x[4]+'</span></span><span class="opt-check">'+ic('check')+'</span></button>'}).join('')+'</div>';
+    if(OB.etype==='date')q+='<div class="card dsec" style="margin-top:14px"><input class="txtin" id="obD" type="date" min="'+todayKey()+'" value="'+(OB.exam_date||'')+'"><div class="wiz-foot"><button class="btn btn-primary" data-act="obnext">التالي</button></div></div>';
+  }else{
+    q+='<div style="margin:10px 0"><input class="txtin" id="obN" maxlength="20" placeholder="اسمك (اختياري)"></div>'
+    +'<button class="btn btn-primary btn-lg btn-block" data-act="obfin">'+ic('bot')+' ابنِ خطتي</button>';
+  }
+  b.innerHTML=q;
+  if(k==='cur_grade'||k==='goal_grade'){
+    var r=document.getElementById('ggR');
+    function u(){var v=+r.value;OB[k]=v;document.getElementById('ggN').textContent=toAr(v);
+      var bb=null;for(var i=0;i<GB.length;i++){if(v<GB[i].m){bb=GB[i];break}}
+      var c=document.getElementById('ggC');c.textContent=bb.n;c.style.cssText='background:'+bb.b+';color:'+bb.c+';border-color:'+bb.c;
+      document.getElementById('ggF').style.width=v+'%';document.getElementById('ggF').style.background=bb.c;
+      document.getElementById('ggS').textContent=cur?'تقديرك — سيبني عليه':'الفرق: '+toAr(Math.max(0,v-OB.cur_grade))+' درجة'}
+    r.addEventListener('input',u);u();
+  }
+  if(k==='problems'){OB.problems.forEach(function(p){var e=b.querySelector('[data-val="'+p+'"]');if(e)e.classList.add('sel')})}
+  var dt=document.getElementById('obD');
+  if(dt)dt.addEventListener('change',function(){OB.exam_date=dt.value});
+  var nm=document.getElementById('obN');
+  if(nm){nm.value=OB.name;nm.addEventListener('input',function(){OB.name=nm.value})}
+}
+function finishOb(){
+  var old=STUDY_PLANS[OB.subject]||null;
+  if(old && !OB.lockSubject){
+    switchPlan(OB.subject);
+    return;
+  }
+  var base=old||{};
+  db={v:10,name:OB.name||base.name||'طالبنا',grade:OB.grade,subject:OB.subject,cur_grade:OB.cur_grade,goal_grade:OB.goal_grade,
+    problems:OB.problems.length?OB.problems.slice():(base.problems&&base.problems.length?base.problems.slice():['forget']),time_avail:OB.time_avail,exam_date:OB.exam_date,
+    routine:base.routine||{wake:'06:30',schoolEnd:'14:00',sleep:'22:30'},day_idx:0,today:null,methods_done:{},days_done:[],minutes:0,tasks:0,
+    semester:base.semester||null,weakAreas:[],preferences:base.preferences||{},studyHabits:{sessionMinutes:0,completedDays:0,consistency:0}};
+  ACTIVE_SUBJECT=OB.subject;
+  STUDY_PLANS[ACTIVE_SUBJECT]=db;
+  syncStudentProfile();save();tState();renderDash();toast(LANG==='en'?'Your plan is ready!':'خطتك جاهزة!','trophy');
+  OB.lockSubject=false;
+}
+
+function cmsgs(){
+  var p=coachProfile(),r=coachRecommendation(),o=[];
+  if(p.days!==null&&p.days<=7)o.push(['zap','متبقي '+toAr(p.days)+' أيام — الأولوية الآن للاستعداد للاختبار']);
+  o.push(['bot',r.text]);
+  if(p.progress>=70)o.push(['up','تقدمك '+toAr(p.progress)+'% — سنرفع جودة المهام بدل زيادة عددها بلا حاجة']);
+  else if(p.problem==='forget')o.push(['rot','لأن مشكلتك النسيان، ستظهر لك مراجعات استرجاعية في الخطة']);
+  else o.push(['target','هدفك '+toAr(p.goal)+'% — خطتك تتغير حسب صفك ووقتك ومشكلتك']);
+  return o.slice(0,3);
+}
+function renderDash(){
+  if(!db){start();return}
+  var p=prog(),d=dte(),T=tState();
+  var op=0;T.tasks.forEach(function(t,i){if(!T.done['t'+i])op++});
+  var planCards='<div class="wiz-head" style="margin-top:20px"><h1>'+(LANG==='en'?'My Study Plans':'خططي الدراسية')+'</h1><p>'+(LANG==='en'?'Each subject has its own independent plan and progress.':'لكل مادة خطة مستقلة وتقدم مستقل.')+'</p></div><div class="grid2">';
+  planSubjectsForGrade(db.grade).forEach(function(sub){var pl=getPlan(sub),en=LANG==='en';
+    if(pl){var pp=planProgress(pl),ed=pl.exam_date?new Date(pl.exam_date+'T23:59:59'):null,ds=ed?Math.max(0,Math.ceil((ed-new Date())/86400000)):null;
+      planCards+='<div class="card dsec"><div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start"><div><span class="sic">'+ic(SUBJ[sub][1])+'</span><h3 style="margin:8px 0 4px">'+planLabel(sub,en)+'</h3><div class="small muted">'+(en?'Progress':'التقدم')+': '+toAr(pp)+'%</div></div><span class="pre-chip">'+(ds!==null?(en?'Exam in ':'الاختبار بعد ')+toAr(ds)+(en?' days':' يومًا'):(en?'No exam date':'لا يوجد موعد اختبار'))+'</span></div><button class="btn btn-sm btn-primary" style="margin-top:12px" data-act="switchplan" data-val="'+sub+'">'+(en?'View Plan':'عرض الخطة')+'</button></div>';
+    }else{
+      planCards+='<div class="card dsec"><span class="sic">'+ic(SUBJ[sub][1])+'</span><h3 style="margin:8px 0 4px">'+planLabel(sub,en)+'</h3><div class="small muted">'+(en?'No plan yet':'لا توجد خطة بعد')+'</div><button class="btn btn-sm" style="margin-top:12px" data-act="newplan" data-val="'+sub+'">'+(en?'Create Plan':'إنشاء خطة')+'</button></div>';
+    }});
+  planCards+='</div>';
+  document.getElementById('dashBox').innerHTML='<div class="greet">'+ic('spark')+' مرحبا، '+esc(db.name)+'</div>'
+  +'<p class="muted small">'+SUBJ[db.subject][0]+' · الصف '+toAr(db.grade)+(d!==null?' · متبقي '+toAr(d)+' يومًا':'')+'</p>'
+  +planCards
+  +'<div class="card lvlcard"><div><div class="lvl-big">'+toAr(db.cur_grade)+'</div><p class="center small" style="font-weight:700">درجتك<br>الحالية</p></div>'
+  +'<div class="lvl-side"><b>هدفك: '+toAr(db.goal_grade)+' — أنجزت '+toAr(db.minutes)+' دقيقة مذاكرة</b>'
+  +'<div class="pblocks">'+blocks(p)+'</div><span class="plab">تقدمك: '+toAr(p)+'%</span></div></div>'
+  +'<div class="card coach"><div class="coach-h"><span class="cav">'+ic('bot')+'</span> Study Coach</div>'
+  +cmsgs().map(function(m){return '<div class="cmsg">'+ic(m[0])+'<span>'+m[1]+'</span></div>'}).join('')+'</div>'
+  +'<div class="tiles">'
+  +'<div class="tile card pri" data-act="today"><span class="tic">'+ic('target')+'</span><b>ماذا أدرس اليوم؟</b><span>'+(op?toAr(op)+' مهام · '+toAr(T.tasks.reduce(function(a,t){return a+t.m},0))+' دقيقة':'أنجزت!')+'</span></div>'
+  +'<div class="tile card" data-act="page" data-val="planner"><span class="tic">'+ic('cal')+'</span><b>خطتي</b><span>الجدول والروتين</span></div>'
+  +'<div class="tile card" data-act="page" data-val="methods"><span class="tic">'+ic('brain')+'</span><b>كيف أذاكر؟</b><span>طرق ونصائح مناسبة لك</span></div>'
+  +'<div class="tile card" data-act="page" data-val="prog"><span class="tic">'+ic('up')+'</span><b>تقدمي</b><span>تقدمك وهدفك</span></div>'
+  +'</div>'
+  +'<p class="muted small center" style="margin-top:18px"><button class="btn btn-sm" data-act="reset">'+ic('rot')+' خطة جديدة</button></p>';
+  go('v-dash');
+}
+function dtip(){var pool=TIPS.filter(function(t){return db.problems.some(function(p){return t.f.indexOf(p)>=0})});
+  if(pool.length<3)TIPS.forEach(function(t){if(pool.indexOf(t)<0)pool.push(t)});
+  if(TIPX===null)TIPX=db.day_idx%pool.length;return pool[TIPX%pool.length]}
+function rToday(){
+  var T=tState(),pt=personalizedTips(),tp=pt[0] || dtip();
+  document.getElementById('todayBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="dcount">'+ic('cal')+' اليوم '+toAr(db.day_idx+1)+'</span></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">ماذا تدرس اليوم؟</h2>'
+  +'<p class="muted small" style="margin-bottom:8px">'+toAr(T.tasks.length)+' مهام · حوالي '+toAr(T.tasks.reduce(function(a,t){return a+t.m},0))+' دقيقة</p>'
+  +T.tasks.map(function(t,i){var dn=!!T.done['t'+i];
+    return '<div class="taskrow" data-act="stask" data-val="'+i+'"><span class="tkic">'+ic(TIC[t.k]||'check')+'</span><span class="tk-t"><b>'+esc(t.t)+'</b><span>'+esc(t.d||'')+'</span></span><span class="tks'+(dn?' done':'')+'">'+toAr(t.m)+' د · '+(dn?'مكتمل':'ابدأ')+'</span></div>'}).join('')
+  +'<div class="dtip">'+ic('bulb')+'<span>'+tp.t+' <b>'+tp.a+'</b></span></div>'
+  +'<button class="btn btn-primary btn-lg btn-block" data-act="daydone" style="margin-top:14px">'+ic('check')+' أنهيت اليوم</button></div>';
+  go('v-today');
+}
+function rStart(){
+  document.getElementById('startBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="dcount">'+ic('zap')+' ساعدني أبدأ</span></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">كم من الوقت لديك؟</h2>'
+  +[10,20,30,45,60].map(function(m){return '<div class="taskrow" data-act="quick" data-val="'+m+'"><span class="tkic">'+ic('timer')+'</span><span class="tk-t"><b>'+toAr(m)+' دقيقة</b></span><span class="tks">اختر</span></div>'}).join('')+'</div>';
+  go('v-start');
+}
+function fc(s){var m=Math.floor(s/60),x=s%60;return (m<10?'0':'')+m+':'+(x<10?'0':'')+x}
+function rQuick(m){
+  var ts=quick(m);window._q=ts;
+  document.getElementById('startBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">جلستك ('+toAr(m)+' دقيقة)</h2>'
+  +ts.map(function(t,i){return '<div class="taskrow" data-act="rq" data-val="'+i+'"><span class="tkic">'+ic(TIC[t.k]||'check')+'</span><span class="tk-t"><b>'+esc(t.t)+'</b></span><span class="tks">'+toAr(t.m)+' د</span></div>'}).join('')+'</div>';
+  go('v-start');
+}
+function openTask(t,cb){
+  RUN={t:t,left:t.m*60,el:0,iv:null,cb:cb};
+  document.getElementById('taskBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="tout">'+ic('arrr')+'</button></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">'+esc(t.t)+'</h2><p class="muted">'+esc(t.d||'')+'</p>'
+  +'<div class="card" style="padding:18px;text-align:center"><div class="lvl-big" id="tc" style="font-size:2.8rem">'+fc(RUN.left)+'</div></div>'
+  +'<div style="display:flex;gap:10px;margin-top:14px"><button class="btn btn-lg" data-act="tog" style="flex:1" id="tb">'+ic('play')+' ابدأ</button>'
+  +'<button class="btn btn-primary btn-lg" data-act="tdone" style="flex:1">'+ic('check')+' أنهيت</button></div></div>';
+  go('v-task');
+}
+function tk(){RUN.left--;RUN.el++;var c=document.getElementById('tc');if(c)c.textContent=fc(RUN.left);if(RUN.left<=0){sp();toast('انتهى وقت المهمة','timer')}}
+function sp(){if(RUN&&RUN.iv){clearInterval(RUN.iv);RUN.iv=null}}
+function tog(){if(!RUN)return;
+  if(RUN.iv){sp();document.getElementById('tb').innerHTML=ic('play')+' استئناف'}
+  else{RUN.iv=setInterval(tk,1000);document.getElementById('tb').innerHTML=ic('pause')+' إيقاف'}}
+function pT(t){var p=t.split(':');return +p[0]*60+ +p[1]}
+function fT(m){m=((m%1440)+1440)%1440;return (Math.floor(m/60)<10?'0':'')+Math.floor(m/60)+':'+(m%60<10?'0':'')+(m%60)}
+function plannerDays(){
+  var d=dte();
+  if(d!==null) return Math.max(1,Math.min(30,d));
+  return 7;
+}
+function rPlanner(){
+  var p=coachProfile(),cfg=gradePlanConfig(),a=p.time,dn=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],daysCount=plannerDays();
+  var labels=p.band==='junior'?['فهم فكرة واحدة','تطبيق قصير','استرجاع','مراجعة خفيفة']:p.band==='middle'?['أولوية اليوم','تطبيق وتحليل أخطاء','مراجعة متباعدة','مادة ثانية']:['أعلى نقطة ضعف','تطبيق بزمن','مراجعة متباعدة','مراجعة ختامية'];
+  var labelEn={'فهم فكرة واحدة':'Understand one idea','تطبيق قصير':'Short practice','استرجاع':'Recall','مراجعة خفيفة':'Light review','أولوية اليوم':'Today’s priority','تطبيق وتحليل أخطاء':'Practice & error analysis','مراجعة متباعدة':'Spaced review','مادة ثانية':'Second subject','أعلى نقطة ضعف':'Top weak area','تطبيق بزمن':'Timed practice','مراجعة ختامية':'Final review','استرجاع إضافي':'Extra recall'};
+  var sm=pT(db.routine.schoolEnd)+(p.days!==null&&p.days<=1?30:60);
+  var h='<div class="wiz-bar"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">'+tx('خطتي','My Plan')+'</span></div>'
+  +'<div class="wiz-head"><h1>'+tx('جدول مذاكرة شخصي','Personal study schedule')+'</h1><p>'+toAr(a)+' '+tx('دقيقة يوميًا','minutes per day')+' · '+tx(cfg.focus,cfg.focus)+' · '+tx('جلسات','sessions')+' '+toAr(cfg.session)+' '+tx('دقيقة','min')+'.</p></div>'
+  +'<div style="display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 16px">'
+  +'<button class="btn btn-sm" data-act="page" data-val="routine">'+ic('clock')+' '+tx('روتيني الدراسي','My study routine')+'</button>'
+  +'<button class="btn btn-sm btn-primary" data-act="pdf">'+ic('dl')+' '+tx('تحميل الخطة PDF','Download PDF')+'</button>'
+  +'</div>';
+  for(var d=0;d<daysCount;d++){
+    var slots=Math.max(1,Math.floor(a/(cfg.session+cfg.breakMin))),c=sm,rows='',si=d%labels.length;
+    for(var ss=0;ss<slots;ss++){
+      var t1=fT(c);c+=cfg.session;var t2=fT(c);
+      var label=labels[si%labels.length];
+      if(label==='مادة ثانية'&&p.grade<10)label='استرجاع إضافي';
+      rows+='<div class="trow"><span class="timechip">'+t1+' - '+t2+'</span><b style="flex:1">'+(LANG==='en'?(labelEn[label]||label):label)+'</b><span class="tks">'+toAr(cfg.session)+' '+tx('دقيقة','min')+'</span></div>';
+      if(ss<slots-1){var r1=fT(c);c+=cfg.breakMin;rows+='<div class="trow"><span class="timechip">'+r1+' - '+fT(c)+'</span><b style="flex:1">'+tx('استراحة','Break')+'</b><span class="tks">'+toAr(cfg.breakMin)+' '+tx('دقيقة','min')+'</span></div>'}
+      si++;
+    }
+    if(!rows)rows='<div class="trow"><b>'+tx('جلسة واحدة قصيرة','One short session')+'</b><span class="tks">'+toAr(Math.min(cfg.session,a))+' '+tx('دقيقة','min')+'</span></div>';
+    h+='<div class="card dsec"><h3>'+ic('cal')+' '+(LANG==='en'?(EN[dn[d]]||dn[d]):dn[d])+'</h3>'+rows+'</div>';
+  }
+  document.getElementById('plannerBox').innerHTML=h;go('v-planner');
+}
+function rRoutine(){
+  var r=db.routine;
+  document.getElementById('routineBox').innerHTML='<div class="wiz-bar"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">روتيني الدراسي</span></div>'
+  +'<div class="wiz-head"><h1>نظم وقتك</h1><p>أدخل أوقات يومك وسنقترح نوافذ المذاكرة.</p></div>'
+  +'<div class="card dsec"><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+  +'<div><label class="small" style="font-weight:700;color:var(--muted)">الاستيقاظ</label><input class="txtin" id="rW" type="time" value="'+r.wake+'"></div>'
+  +'<div><label class="small" style="font-weight:700;color:var(--muted)">العودة من المدرسة</label><input class="txtin" id="rE" type="time" value="'+r.schoolEnd+'"></div>'
+  +'<div><label class="small" style="font-weight:700;color:var(--muted)">النوم</label><input class="txtin" id="rS" type="time" value="'+r.sleep+'"></div></div>'
+  +'<button class="btn btn-sm btn-primary" style="margin-top:10px" data-act="savert">'+ic('check')+' احفظ</button></div>'
+  +'<div class="card dsec"><h3>'+ic('spark')+' نوافذ مقترحة</h3>'
+  +'<div class="trow"><span class="dot g"></span><b>الجلسة الأساسية</b><span class="timechip">'+fT(pT(r.schoolEnd)+60)+' - '+fT(pT(r.schoolEnd)+60+(db.time_avail||60))+'</span></div>'
+  +'<div class="trow"><span class="dot y"></span><b>مراجعة قبل النوم</b><span class="timechip">'+fT(pT(r.sleep)-30)+' - '+fT(pT(r.sleep)-5)+'</span></div></div>';
+  go('v-routine');
+}
+function rMethods(){
+  var p=coachProfile();
+  var data={
+    MAT:{id:'math',title:'كيف أذاكر الرياضيات؟',en:'How do I study Mathematics?',w:'٧٠٪ من وقتك حل فعلي.',enw:'Spend most of your study time solving problems.',h:['افهم من مثال','أعد المثال بنفسك','حل ٥-١٠ مسائل','حلل الأخطاء وأعدها غدًا'],enh:['Understand one example','Redo the example yourself','Solve 5–10 problems','Analyze mistakes and retry them tomorrow'],ex:'درس المعادلات: مثال واحد ثم ثمانية مسائل.',enex:'For equations: one example, then eight problems.'},
+    PHY:{id:'physics',title:'كيف أذاكر الفيزياء؟',en:'How do I study Physics?',w:'افهم لماذا يحدث ثم متى يصلح القانون.',enw:'Understand why it happens and when the formula applies.',h:['افهم المفهوم','افهم القانون ومتى يصلح','حل مثالًا خطوة بخطوة','صنّف أخطاءك'],enh:['Understand the concept','Understand the formula and when it applies','Solve one example step by step','Classify your mistakes'],ex:'افهم الفكرة ثم اختر القانون المناسب وحل.',enex:'Understand the idea, choose the right formula, then solve.'},
+    CHE:{id:'chem',title:'كيف أذاكر الكيمياء؟',en:'How do I study Chemistry?',w:'اربط المفاهيم والمعادلات بدل الحفظ المنفصل.',enw:'Connect concepts and equations instead of memorizing them separately.',h:['افهم قبل الحفظ','اربط المفاهيم بخريطة','طبّق على أمثلة','راجع أخطاء الحساب'],enh:['Understand before memorizing','Connect concepts with a map','Apply to examples','Review calculation mistakes'],ex:'اربط المفهوم بالمعادلة ثم طبّق على مثال.',enex:'Connect the concept to the equation, then apply it to an example.'},
+    BIO:{id:'bio',title:'كيف أذاكر الأحياء؟',en:'How do I study Biology?',w:'افهم العمليات والعلاقات ثم استرجعها.',enw:'Understand processes and relationships, then recall them.',h:['قسّم الدرس إلى مفاهيم','افهم العلاقات والعمليات','ارسم أو سمِّ الأجزاء من الذاكرة','راجع الفروق بين المفاهيم'],enh:['Break the lesson into concepts','Understand relationships and processes','Draw or name parts from memory','Review differences between concepts'],ex:'اشرح العملية من البداية للنهاية دون النظر للدرس.',enex:'Explain the process from start to finish without looking at the lesson.'},
+    ENG:{id:'theory',title:'كيف أذاكر اللغة الإنجليزية؟',en:'How do I study English?',w:'وزّع الجلسة بين المفردات والقواعد والتطبيق.',enw:'Split the session between vocabulary, grammar, and practice.',h:['راجع مفردات جديدة','طبّق قاعدة واحدة','اقرأ فقرة قصيرة','اكتب جملًا من عندك'],enh:['Review new vocabulary','Practice one grammar rule','Read a short paragraph','Write your own sentences'],ex:'تعلّم كلمات ثم استخدمها في جمل.',enex:'Learn new words and use them in sentences.'},
+    ARA:{id:'theory',title:'كيف أذاكر اللغة العربية؟',en:'How do I study Arabic?',w:'افهم القاعدة أو النص ثم طبّق واسترجع.',enw:'Understand the rule or text, then apply and recall it.',h:['افهم القاعدة أو الفكرة','طبّقها مباشرة','لخّص النص بكلماتك','راجع أخطاءك المتكررة'],enh:['Understand the rule or idea','Apply it immediately','Summarize the text in your own words','Review repeated mistakes'],ex:'افهم القاعدة ثم اكتب أمثلة من عندك.',enex:'Understand the rule, then write your own examples.'},
+    ISL:{id:'theory',title:'كيف أذاكر التربية الإسلامية؟',en:'How do I study Islamic Education?',w:'افهم المعنى ثم استخدم الاسترجاع للحفظ.',enw:'Understand the meaning, then use recall for memorization.',h:['افهم المعنى','قسّم الحفظ إلى أجزاء','استرجع دون نظر','راجع على فترات'],enh:['Understand the meaning','Break memorization into parts','Recall without looking','Review at intervals'],ex:'اقرأ الجزء ثم أغلقه واسترجعه من الذاكرة.',enex:'Read a section, close it, and recall it from memory.'},
+    SOC:{id:'theory',title:'كيف أذاكر الدراسات الاجتماعية؟',en:'How do I study Social Studies?',w:'اربط الأسباب والنتائج والمفاهيم.',enw:'Connect causes, effects, and concepts.',h:['حدد الفكرة الرئيسية','اربط السبب بالنتيجة','استخدم خطًا زمنيًا عند الحاجة','استرجع المعلومات من الذاكرة'],enh:['Identify the main idea','Connect cause and effect','Use a timeline when helpful','Recall information from memory'],ex:'حوّل الحدث إلى سبب ونتيجة وتاريخ.',enex:'Turn the event into a cause, effect, and timeline.'},
+    SCI:{id:'theory',title:'كيف أذاكر العلوم؟',en:'How do I study Science?',w:'افهم المفهوم واربطه بالتجارب والرسومات.',enw:'Understand the concept and connect it to experiments and diagrams.',h:['افهم المفهوم','اشرحه بكلماتك','استخدم رسمًا أو مقارنة','طبّق على مثال'],enh:['Understand the concept','Explain it in your own words','Use a diagram or comparison','Apply it to an example'],ex:'اشرح المفهوم ثم ارسم العلاقة بين أجزائه.',enex:'Explain the concept, then draw the relationship between its parts.'}
+  };
+  var m=data[p.subject]||data.MAT;
+  var h='<div class="wiz-bar"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">'+tx('كيف أذاكر؟','How do I study?')+'</span></div>'
+  +'<div class="wiz-head"><h1>'+ (LANG==='en'?m.en:m.title) +'</h1><p>'+p.profile.intro+' '+subjectCoachAdvice(p)+'</p></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">'+(LANG==='en'?m.en:m.title)+'</h2>'
+  +'<div class="lsec"><h3><span class="ln">١</span> '+tx('ما هي؟','What is it?')+'</h3><p>'+(LANG==='en'?m.enw:m.w)+'</p></div>'
+  +'<div class="lsec"><h3><span class="ln">٢</span> '+tx('كيف؟','How?')+'</h3><ul class="sumlist">'+(LANG==='en'?m.enh:m.h).map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>'
+  +'<div class="lsec"><h3><span class="ln">٣</span> '+tx('مثال','Example')+'</h3><div class="gold">'+ic('spark')+'<div><b>'+tx('عملي','Practical')+'</b><p>'+(LANG==='en'?m.enex:m.ex)+'</p></div></div></div></div>'
+  +'<div style="margin:12px 0 16px"><button class="btn btn-sm btn-primary" data-act="page" data-val="tips">'+ic('bulb')+' '+tx('نصائح مخصصة لك','Personalized tips for you')+'</button></div>';
+  document.getElementById('methodsBox').innerHTML=h;go('v-methods');
+}
+function rMethod(id){
+  var m=personalizedMethod(id);if(!m)return;
+  var dn=db.methods_done[m.id];
+  document.getElementById('methodBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="methods">'+ic('arrr')+'</button><span class="dcount">'+m.n+'</span></div>'
+  +'<div class="card lessoncard"><h2 style="font-size:1.35rem">'+m.n+'</h2>'
+  +'<div class="lsec"><h3><span class="ln">١</span> ما هي؟</h3><p>'+m.w+'</p></div>'
+  +'<div class="lsec"><h3><span class="ln">٢</span> متى؟</h3><p>'+m.wh+'</p></div>'
+  +'<div class="lsec"><h3><span class="ln">٣</span> كيف؟</h3><ul class="sumlist">'+m.h.map(function(s){return '<li>'+s+'</li>'}).join('')+'</ul></div>'
+  +'<div class="lsec"><h3><span class="ln">٤</span> مثال</h3><div class="gold">'+ic('spark')+'<div><b>عملي</b><p>'+m.ex+'</p></div></div></div>'
+  +(dn?'<div class="pre-chip" style="margin-top:10px">'+ic('check')+' طبقتها ✓</div>':'<button class="btn btn-primary btn-block" style="margin-top:10px" data-act="applym" data-val="'+m.id+'">'+ic('check')+' طبقتها</button>')
+  +'</div>';go('v-method');
+}
+function rTips(){
+  var p=coachProfile(),l=personalizedTips();
+  var h='<div class="wiz-bar"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">'+tx('نصائح لك','Tips for you')+'</span></div>'
+  +'<div class="wiz-head"><h1>'+tx('نصائح مخصصة للصف','Personalized tips for grade')+' '+toAr(p.grade)+'</h1><p>'+(LANG==='en'?p.profile.intro.replace('خلّنا نخلي المذاكرة أسهل بخطوات قصيرة وواضحة.','Let’s make studying easier with short, clear steps.') : p.profile.intro)+' '+tx('لا نعرض نفس النصيحة لكل طالب؛ نستخدم مشكلتك ووقتك وموعد اختبارك وتقدمك.','We do not give every student the same advice; we use your challenge, time, exam date, and progress.')+'</p></div>';
+  l.forEach(function(t,i){h+='<div class="card dsec"><h3>'+ic('bulb')+' '+tx('نصيحة','Tip')+' '+toAr(i+1)+'</h3><p><b>'+(LANG==='en'?t.te:t.t)+'</b></p><div class="gold">'+ic('zap')+'<div><b>'+tx('جرب','Try')+'</b><p>'+(LANG==='en'?t.ae:t.a)+'</p></div></div></div>'});
+  document.getElementById('tipsBox').innerHTML=h;go('v-tips');
+}
+function rProg(){
+  var p=prog();
+  document.getElementById('progBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">تقدمي</span></div>'
+  +'<div class="wiz-head"><h1>تطورك الدراسي</h1><p>تابع تقدمك وشوف هدفك في مكان واحد.</p></div>'
+  +'<div style="margin:12px 0 16px"><button class="btn btn-sm btn-primary" data-act="page" data-val="goal">'+ic('flag')+' عرض هدفي</button></div>'
+  +'<div class="card lessoncard center"><div class="lvl-big">'+toAr(db.minutes)+'</div><h2>دقيقة مذاكرة</h2>'
+  +'<div class="pblocks" style="justify-content:center">'+blocks(p)+'</div><b>'+toAr(p)+'% من جهد الخطة</b></div>'
+  +'<div class="card statrow"><div class="stt"><b>'+toAr(db.days_done.length)+'</b><span class="small muted">أيام</span></div>'
+  +'<div class="stt"><b>'+toAr(db.tasks)+'</b><span class="small muted">مهام</span></div>'
+  +'<div class="stt"><b>'+toAr(streak())+'</b><span class="small muted">متتالية</span></div>'
+  +'<div class="stt"><b>'+toAr(Object.keys(db.methods_done).length)+'</b><span class="small muted">مهارات</span></div></div>';
+  go('v-prog');
+}
+function rGoal(){
+  var p=prog();
+  document.getElementById('goalBox').innerHTML='<div class="dhead"><button class="btn btn-sm" data-act="page" data-val="dash">'+ic('arrr')+'</button><span class="wcount">هدفي</span></div>'
+  +'<div class="card lessoncard center"><div class="lvl-big">'+toAr(db.cur_grade)+'</div><h2>الهدف: '+toAr(db.goal_grade)+'</h2>'
+  +'<div class="pblocks" style="justify-content:center">'+blocks(p)+'</div><b>'+toAr(p)+'%</b></div>'
+  +'<div class="card dsec"><h3>عدّل هدفك</h3>'
+  +[70,80,85,90,95].filter(function(g){return g>db.cur_grade}).map(function(g){
+    return '<button class="opt card g-opt" data-act="setgoal" data-val="'+g+'" style="width:100%;margin-bottom:8px;'+(g===db.goal_grade?'border-color:var(--green);background:var(--green-soft)':'')+'">الوصول إلى '+toAr(g)+'</button>'}).join('')+'</div>';
+  go('v-goal');
+}
+async function pdf(){
+  if(!db)return;
+  var dn=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+  var tl=['مفهوم جديد','تطبيق وحل','استرجاع نشط','مراجعة أخطائي'];
+  var a=db.time_avail||60,sm=pT(db.routine.schoolEnd)+60,dh='';
+  for(var d=0;d<7;d++){
+    var slots=Math.max(1,Math.round(a/30)),c=sm,rows='',si=d%tl.length;
+    for(var s=0;s<slots;s++){
+      var t1=fT(c);c+=25;var t2=fT(c);
+      rows+='<div class="pt"><span>'+tl[si%tl.length]+' — '+SUBJ[db.subject][0]+'</span><span style="color:#C13A0D;font-weight:700">'+t1+'-'+t2+' ('+toAr(25)+' د)</span></div>';
+      if(c-sm<a-20){rows+='<div class="pt" style="color:#999"><span>استراحة</span><span>٥ د</span></div>';c+=5}
+      si++}
+    dh+='<div class="pd"><div class="pdh">'+dn[d]+'</div><div class="pdb">'+rows+'</div></div>';
+  }
+  document.getElementById('pdfH').innerHTML='<h1>Study Rescue</h1><div class="ps">خطة مذاكرة شخصية</div>'
+  +'<div class="pi"><div><b>الاسم</b><span>'+esc(db.name)+'</span></div><div><b>الصف</b><span>'+toAr(db.grade)+'</span></div>'
+  +'<div><b>المادة</b><span>'+SUBJ[db.subject][0]+'</span></div><div><b>الدرجة الحالية</b><span>'+toAr(db.cur_grade)+'</span></div>'
+  +'<div><b>الهدف</b><span>'+toAr(db.goal_grade)+'</span></div><div><b>الوقت اليومي</b><span>'+toAr(db.time_avail)+' دقيقة</span></div></div>'
+  +'<h2 style="font-size:13pt;margin-bottom:6pt">الجدول الأسبوعي</h2>'+dh
+  +'<div class="pn"><b>ملاحظة Study Coach:</b> '+esc(coachRecommendation().text)+'</div>'
+  +'<div class="pf">Study Rescue — '+new Date().toLocaleDateString('ar-OM')+'</div>';
+  try{
+    var cv=await html2canvas(document.getElementById('pdfH'),{scale:2,backgroundColor:'#ffffff'});
+    var J=window.jspdf.jsPDF,pdf=new J('p','mm','a4');
+    var pw=pdf.internal.pageSize.getWidth(),ph=pdf.internal.pageSize.getHeight();
+    var iw=pw-20,ih=cv.height*iw/cv.width;
+    if(ih<=ph-20)pdf.addImage(cv.toDataURL('image/jpeg',.95),'JPEG',10,10,iw,ih);
+    else{var pp=Math.ceil(ih/(ph-20)),ch=Math.ceil(cv.height/pp);
+      for(var i=0;i<pp;i++){if(i>0)pdf.addPage();
+        var tc=document.createElement('canvas');tc.width=cv.width;tc.height=Math.min(ch,cv.height-i*ch);
+        tc.getContext('2d').drawImage(cv,0,i*ch,cv.width,tc.height,0,0,cv.width,tc.height);
+        pdf.addImage(tc.toDataURL('image/jpeg',.95),'JPEG',10,10,iw,tc.height*iw/cv.width)}}
+    pdf.save('Study-Rescue-Plan.pdf');toast('تم تنزيل خطتك PDF','dl');
+  }catch(e){toast('خطأ في PDF','x')}
+}
+function start(){if(!SB_USER){showAuth('login');return}obStep=0;rOb();go('v-ob')}
+document.addEventListener('click',function(e){
+  var t=e.target.closest?e.target.closest('[data-act]'):null;if(!t)return;
+  var a=t.getAttribute('data-act'),v=t.getAttribute('data-val');
+  try{ACT(a,v,t)}catch(err){console.error(err);toast('خطأ','x')}
+});
+function ACT(a,v,t){
+  if(a==='lang'){toggleLang();return}
+  if(a==='auth'){showAuth(v||'login');return}
+  if(a==='authmode'){showAuth(v||'login');return}
+  if(a==='authSubmit'){authSubmit();return}
+  if(a==='forgot'){forgotPassword();return}
+  if(a==='logout'){logout();return}
+  if(a==='brand'){if(db)renderDash();else if(SB_USER)start();else showAuth('login');return}
+  if(a==='how'){go('v-home');setTimeout(function(){var h=document.getElementById('how');if(h)h.scrollIntoView({behavior:'smooth'})},80);return}
+  if(a==='start'){if(db)renderDash();else if(SB_USER)start();else showAuth('register');return}
+  if(a==='obback'){if(obStep>0){obStep--;rOb()}else{home();go('v-home')}return}
+  if(a==='obgo'){obStep=+v;rOb();return}
+  if(a==='obnext'){
+    if(OBS[obStep][0]==='exam_date'&&OB.etype==='date'&&!OB.exam_date){toast('اختر تاريخ اختبارك','x');return}
+    if(obStep>=OBS.length-1){finishOb();return}
+    obStep++;rOb();return}
+  if(a==='obp'){var i=OB.problems.indexOf(v);
+    if(i>=0){OB.problems.splice(i,1);t.classList.remove('sel')}else{OB.problems.push(v);t.classList.add('sel')}return}
+  if(a==='obfin'){
+    var nm=document.getElementById('obN');
+    OB.name=nm ? nm.value.trim() : (OB.name||'');
+    finishOb();
+    return;
+  }
+  if(a==='newplan'){startNewPlan(v);return}
+  if(a==='switchplan'){switchPlan(v);return}
+
+  if(a==='obopt'){
+    var k=OBS[obStep][0];
+    if(k==='exam_date'&&v==='date'){OB.etype='date';rOb();return}
+    if(obAdv)return;obAdv=true;
+    var bs=document.querySelectorAll('#obBody .opt');
+    for(var q=0;q<bs.length;q++)bs[q].classList.remove('sel');
+    t.classList.add('sel');
+    if(k==='grade'||k==='time_avail')OB[k]=+v;
+    else if(k==='exam_date'){OB.etype=v;if(v!=='none'&&v!=='date'){var dd=null;EXAMS.forEach(function(x){if(x[0]===v)dd=x[1]});OB.exam_date=dd?addDays(todayKey(),dd):null}}
+    else OB[k]=v;
+    if(k==='name'){obAdv=false;return}
+    setTimeout(function(){obAdv=false;obStep++;rOb()},280);
+    return}
+  if(a==='page'){
+    if(v==='start'){if(SB_USER)rStart();else showAuth('login')}else if(v==='planner')rPlanner();else if(v==='routine')rRoutine()
+    else if(v==='methods')rMethods();else if(v==='tips')rTips();else if(v==='prog')rProg()
+    else if(v==='goal')rGoal();else if(v==='dash'){if(SB_USER)renderDash();else showAuth('login')}else if(v==='home'){if(SB_USER){home();go('v-home')}else showAuth('login')}
+    return}
+  if(a==='today'){rToday();return}
+  if(a==='stask'){
+    var T=tState();var task=T.tasks[+v];if(!task)return;
+    openTask(task,function(){T.done['t'+v]=1;db.minutes+=task.m;db.tasks++;db.studyHabits=db.studyHabits||{};db.studyHabits.completedDays=db.days_done.length;db.studyHabits.consistency=streak();syncStudentProfile();save();rToday()});
+    return}
+  if(a==='quick'){rQuick(+v);return}
+  if(a==='rq'){
+    var ts=window._q||[];var tk2=ts[+v];
+    if(!tk2){toast('انتهت الجلسة','trophy');renderDash();return}
+    openTask(tk2,function(){db.minutes+=tk2.m;db.tasks++;db.studyHabits=db.studyHabits||{};db.studyHabits.completedDays=db.days_done.length;db.studyHabits.consistency=streak();syncStudentProfile();save();
+      var nx=ts[+v+1];
+      if(nx){window._q=ts;rQuick(0);openTask(nx,arguments.callee)}
+      else{toast('أنجزت جلستك','trophy');renderDash()}});
+    return}
+  if(a==='tog'){tog();return}
+  if(a==='tdone'){if(!RUN)return;sp();RUN.cb();return}
+  if(a==='tout'){sp();RUN=null;go('v-dash');return}
+  if(a==='daydone'){
+    db.days_done.push(todayKey());db.day_idx++;db.today=null;TIPX=null;db.studyHabits=db.studyHabits||{};db.studyHabits.completedDays=db.days_done.length;db.studyHabits.consistency=streak();syncStudentProfile();
+    save();toast('أنهيت يومك','trophy');renderDash();return}
+  if(a==='savert'){
+    db.routine.wake=document.getElementById('rW').value;db.routine.schoolEnd=document.getElementById('rE').value;db.routine.sleep=document.getElementById('rS').value;syncStudentProfile();
+    save();toast('حفظنا روتينك','check');rRoutine();return}
+  if(a==='method'){rMethod(v);return}
+  if(a==='applym'){
+    db.methods_done[v]=1;syncStudentProfile();
+    var T2=tState();T2.tasks.forEach(function(x,i){if(x.k==='method'&&x.mid===v)T2.done['t'+i]=1});
+    save();toast('مهارة جديدة','brain');rMethod(v);return}
+  if(a==='pdf'){pdf();return}
+  if(a==='setgoal'){db.goal_grade=+v;syncStudentProfile();save();toast('هدفك الآن '+toAr(v),'target');rGoal();return}
+  if(a==='reset'){
+    if(t.getAttribute('data-arm')){db=null;try{localStorage.removeItem(KEY)}catch(e){};start()}
+    else{t.setAttribute('data-arm','1');t.innerHTML='متأكد؟ اضغط مرة أخرى';setTimeout(function(){if(document.body.contains(t)){t.removeAttribute('data-arm');t.innerHTML=ic('rot')+' خطة جديدة'}},3500)}
+    return}
+}
+function addDays(iso,n){var d=new Date(iso);d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+(async function(){
+  applyLang();
+  if(!backendConfigured()){showAuth('login');console.warn('Study Rescue: configure Supabase before public launch.');return}
+  try{
+    var sessionRes=await sb.auth.getSession();
+    SB_USER=sessionRes.data&&sessionRes.data.session?sessionRes.data.session.user:null;
+    if(SB_USER){await remoteLoadUser();if(db){syncStudentProfile();renderDash()}else{showAuth('login')}}else{showAuth('login')}
+    sb.auth.onAuthStateChange(async function(event,session){
+      SB_USER=session?session.user:null;
+      if(event==='SIGNED_IN'&&SB_USER){await remoteLoadUser();if(db){syncStudentProfile();renderDash()}}
+      if(event==='SIGNED_OUT'){db=null;STUDY_PLANS={};ACTIVE_SUBJECT=null;showAuth('login')}
+    });
+  }catch(e){console.error(e)}
+})();
+</script>
+</body>
+</html>
